@@ -1,4 +1,5 @@
 import TreblePiano from "./components/TreblePiano/TreblePiano";
+import "./style.css"
 
 function App() {
   return (
