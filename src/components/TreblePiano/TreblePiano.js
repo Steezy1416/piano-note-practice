@@ -18,14 +18,18 @@ const TreblePiano = () => {
 
   const handleKeyDown = (e) => {
     const playedNote = trebleNotes.filter((note) => note.key === e.key)[0];
-    if(playedNote){
-        setCurrentNote(playedNote.name);
-    }
-    else return
+    if (playedNote) {
+      setCurrentNote(playedNote.name);
+    } else return;
   };
 
   return (
-    <div tabIndex={0} ref={treblePianoRef} onKeyDown={handleKeyDown}>
+    <div
+      onClick={() => treblePianoRef.current.focus}
+      tabIndex={0}
+      ref={treblePianoRef}
+      onKeyDown={handleKeyDown}
+    >
       {trebleNotes.map((note) => {
         return (
           <TrebleNote
@@ -33,6 +37,7 @@ const TreblePiano = () => {
             note={note}
             playNote={playNote}
             currentNote={currentNote}
+            setCurrentNote={setCurrentNote}
           />
         );
       })}
