@@ -1,6 +1,6 @@
 .treble-piano-content {
   margin: 0 auto;
-  padding: 0 1.5rem;
+  padding: 0 1rem;
   max-width: 600px;
 }
 
@@ -9,10 +9,24 @@
   grid-template-columns: repeat(7, 1fr);
   grid-template-rows: 400px;
   position: relative;
+  gap: 2px;
+  background-color: gray;
+  border-radius: 0 0 5px 5px;
 }
 
 :focus {
   outline: none;
+}
+
+.key-container {
+  position: relative;
+  display: grid;
+  place-items: end center;
+}
+
+.key-container .white-key {
+  width: 100%;
+  height: 100%;
 }
 
 .white-key,
@@ -29,37 +43,53 @@
   box-shadow: inset -10px -37px 106px -71px rgba(0, 0, 0, 1);
 }
 
-.white-key:focus {
+.white-key.white-key-audio {
   box-shadow: inset -10px -37px 106px -49px rgba(0, 0, 0, 1);
 }
 
 .black-key {
   background-color: black;
   color: white;
-  border: 1px solid black;
+  border: none;
   position: absolute;
   height: 275px;
   width: 40px;
   border-radius: 0 0 5px 5px;
   box-shadow: -6px -6px 5px 0px rgba(130, 128, 128, 0.75) inset;
+  top: 0;
+  right: 0;
+  z-index: 1;
 }
 
-.black-key:focus {
+.black-key.black-key-audio {
   box-shadow: -4px -2px 5px 0px rgba(130, 128, 128, 0.75) inset;
 }
 
-.black-key:nth-child(2) {
-  left: 10%;
+.key-w {
+  transform: translateX(40%);
 }
-.black-key:nth-child(4) {
-  left: 26%;
+
+.key-e {
+  transform: translateX(60%);
 }
-.black-key:nth-child(7) {
-  left: 53%;
+
+.key-t {
+  transform: translateX(40%);
 }
-.black-key:nth-child(9) {
-  left: 68%;
+.key-y {
+  transform: translateX(50%);
 }
-.black-key:nth-child(11) {
-  left: 83%;
+.key-u {
+  transform: translateX(60%);
+}
+
+@media (max-width: 31.25rem) {
+  .treble-piano {
+    grid-template-rows: 350px;
+  }
+
+  .black-key {
+    width: 35px;
+    height: 250px;
+  }
 }

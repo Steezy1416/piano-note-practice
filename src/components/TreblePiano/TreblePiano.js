@@ -34,7 +34,25 @@ const TreblePiano = () => {
         onKeyDown={handleKeyDown}
       >
         {trebleNotes.map((note) => {
-          return (
+          console.log(note.sharp);
+          return note.sharp ? (
+            <div className="key-container">
+              <TrebleNote
+                key={note.name}
+                note={note}
+                playNote={playNote}
+                currentNote={currentNote}
+                setCurrentNote={setCurrentNote}
+              />
+              <TrebleNote
+                key={note.sharp.name}
+                note={note.sharp}
+                playNote={playNote}
+                currentNote={currentNote}
+                setCurrentNote={setCurrentNote}
+              />
+            </div>
+          ) : (
             <TrebleNote
               key={note.name}
               note={note}
