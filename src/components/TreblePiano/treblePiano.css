@@ -2,6 +2,7 @@
   margin: 0 auto;
   padding: 0 1rem;
   max-width: 600px;
+  width: 100%;
 }
 
 .treble-piano {
@@ -33,6 +34,7 @@
 .black-key {
   display: grid;
   place-items: end center;
+  font-weight: 700;
 }
 
 .white-key {

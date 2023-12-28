@@ -3,10 +3,11 @@ import TrebleNote from "./TrebleNote";
 import trebleNotes from "./trebleNotes";
 import "./treblePiano.css";
 
-const TreblePiano = () => {
+const TreblePiano = ({ noteDisplay }) => {
   const treblePianoRef = useRef(null);
 
   const [currentNote, setCurrentNote] = useState();
+  const [stopCurrentNote, setStopCurrentNote] = useState();
 
   useEffect(() => {
     treblePianoRef.current.focus();
@@ -14,13 +15,39 @@ const TreblePiano = () => {
 
   const playNote = (note) => {
     note.current.play();
+  };
+
+  const stopNote = (note) => {
+    console.log(note);
+    note.current.pause();
     note.current.currentTime = 0;
   };
 
   const handleKeyDown = (e) => {
-    const playedNote = trebleNotes.filter((note) => note.key === e.key)[0];
+    const notesWithSharps = trebleNotes.filter((note) => note.sharp);
+    const sharpNotes = notesWithSharps.map((note) => note.sharp);
+
+    const allNotes = [...trebleNotes, ...sharpNotes];
+
+    const playedNote = allNotes.filter((note) => note.key === e.key)[0];
+
     if (playedNote) {
       setCurrentNote(playedNote.name);
+    } else return;
+  };
+
+  const handleKeyUp = (e) => {
+    const notesWithSharps = trebleNotes.filter((note) => note.sharp);
+    const sharpNotes = notesWithSharps.map((note) => note.sharp);
+
+    const allNotes = [...trebleNotes, ...sharpNotes];
+
+    const playedNote = allNotes.filter((note) => note.key === e.key)[0];
+
+    console.log(playedNote);
+
+    if (playedNote) {
+      setStopCurrentNote(playedNote.name);
     } else return;
   };
 
@@ -32,24 +59,30 @@ const TreblePiano = () => {
         tabIndex={0}
         ref={treblePianoRef}
         onKeyDown={handleKeyDown}
+        onKeyUp={handleKeyUp}
       >
         {trebleNotes.map((note) => {
-          console.log(note.sharp);
           return note.sharp ? (
-            <div className="key-container">
+            <div key={note.name} className="key-container">
               <TrebleNote
-                key={note.name}
                 note={note}
                 playNote={playNote}
                 currentNote={currentNote}
                 setCurrentNote={setCurrentNote}
+                noteDisplay={noteDisplay}
+                stopNote={stopNote}
+                stopCurrentNote={stopCurrentNote}
+                setStopCurrentNote={setStopCurrentNote}
               />
               <TrebleNote
-                key={note.sharp.name}
                 note={note.sharp}
                 playNote={playNote}
                 currentNote={currentNote}
                 setCurrentNote={setCurrentNote}
+                noteDisplay={noteDisplay}
+                stopNote={stopNote}
+                stopCurrentNote={stopCurrentNote}
+                setStopCurrentNote={setStopCurrentNote}
               />
             </div>
           ) : (
@@ -59,6 +92,10 @@ const TreblePiano = () => {
               playNote={playNote}
               currentNote={currentNote}
               setCurrentNote={setCurrentNote}
+              noteDisplay={noteDisplay}
+              stopNote={stopNote}
+              stopCurrentNote={stopCurrentNote}
+              setStopCurrentNote={setStopCurrentNote}
             />
           );
         })}

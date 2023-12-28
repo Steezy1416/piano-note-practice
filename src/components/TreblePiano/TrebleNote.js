@@ -1,10 +1,40 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 
-const TrebleNote = ({ note, playNote, currentNote, setCurrentNote }) => {
+const TrebleNote = ({
+  note,
+  playNote,
+  currentNote,
+  setCurrentNote,
+  noteDisplay,
+  stopNote,
+  stopCurrentNote,
+  setStopCurrentNote,
+}) => {
   const { name, sound, isSharp, key } = note;
 
   const noteRef = useRef(null);
   const buttonRef = useRef(null);
+
+  useEffect(() => {
+    if (currentNote && currentNote === name) {
+      playNote(noteRef);
+      setCurrentNote("");
+    }
+
+    if (stopCurrentNote && stopCurrentNote === name) {
+      console.log(stopCurrentNote);
+      stopNote(noteRef);
+      setStopCurrentNote("");
+    }
+  }, [
+    currentNote,
+    name,
+    playNote,
+    setCurrentNote,
+    setStopCurrentNote,
+    stopCurrentNote,
+    stopNote,
+  ]);
 
   const handleAudio = () => {
     buttonRef.current.classList.toggle(
@@ -12,24 +42,20 @@ const TrebleNote = ({ note, playNote, currentNote, setCurrentNote }) => {
     );
   };
 
-  if (currentNote && currentNote === name) {
-    buttonRef.current.focus();
-    playNote(noteRef);
-    setCurrentNote("");
-  }
-
   return (
     <button
       ref={buttonRef}
       className={`key-${key} ${isSharp ? "black-key" : "white-key"}`}
-      onClick={() => playNote(noteRef)}
+      onMouseDown={() => playNote(noteRef)}
+      onMouseUp={() => stopNote(noteRef)}
     >
-      {name}
+      {noteDisplay === "notes" ? name : noteDisplay === "keys" ? key : ""}
       <audio
         onPlay={handleAudio}
-        onEnded={handleAudio}
+        onPause={handleAudio}
         ref={noteRef}
         src={sound}
+        preload="none"
       />
     </button>
   );
