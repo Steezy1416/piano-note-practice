@@ -12,6 +12,7 @@ const {
   noteA,
   noteAs,
   noteB,
+  octaveC,
 } = trebleNotesSources;
 
 const trebleNotes = [
@@ -86,6 +87,12 @@ const trebleNotes = [
     sound: noteB,
     isSharp: false,
     key: "j",
+  },
+  {
+    name: "c",
+    sound: octaveC,
+    isSharp: false,
+    key: "k",
   },
 ];
 

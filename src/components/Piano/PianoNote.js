@@ -13,18 +13,18 @@ const PianoNote = ({
   const { name, sound, isSharp, key } = note;
 
   useEffect(() => {
-    if (currentNote && currentNote === name) {
+    if (currentNote && currentNote === key) {
       playNote(noteRef);
       setCurrentNote("");
     }
 
-    if (noteToStop && noteToStop === name) {
+    if (noteToStop && noteToStop === key) {
       stopNote(noteRef);
       setNoteToStop("");
     }
   }, [
     currentNote,
-    name,
+    key,
     playNote,
     setCurrentNote,
     setNoteToStop,
@@ -58,6 +58,7 @@ const PianoNote = ({
         ref={noteRef}
         src={sound}
         preload="auto"
+        autoPlay={false}
       />
     </button>
   );

@@ -10,6 +10,7 @@ import noteGs from "./2-gs.wav";
 import noteA from "./2-a.wav";
 import noteAs from "./2-as.wav";
 import noteB from "./2-b.wav";
+import octaveC from "./3-c.wav"
 
 const bassNotesSources = {
   noteC,
@@ -24,6 +25,7 @@ const bassNotesSources = {
   noteA,
   noteAs,
   noteB,
+  octaveC
 };
 
 export default bassNotesSources;

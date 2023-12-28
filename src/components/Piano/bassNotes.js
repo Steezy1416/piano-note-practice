@@ -12,6 +12,7 @@ const {
   noteA,
   noteAs,
   noteB,
+  octaveC,
 } = bassNotesSources;
 
 const bassNotes = [
@@ -86,6 +87,12 @@ const bassNotes = [
     sound: noteB,
     isSharp: false,
     key: "j",
+  },
+  {
+    name: "c",
+    sound: octaveC,
+    isSharp: false,
+    key: "k",
   },
 ];
 

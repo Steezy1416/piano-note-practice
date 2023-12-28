@@ -26,18 +26,18 @@ const Piano = ({ noteDisplay, clefNotes }) => {
   };
 
   const stopNote = (note) => {
-    setTimeout(function () {
+    setTimeout(() => {
       note.current.pause();
       note.current.currentTime = 0;
-    }, 100);
+    }, 400);
   };
 
   const handleKeyDown = (e) => {
-    setCurrentNote(getPlayedNote(e).name);
+    setCurrentNote(getPlayedNote(e).key);
   };
 
   const handleKeyUp = (e) => {
-    setNoteToStop(getPlayedNote(e).name);
+    setNoteToStop(getPlayedNote(e).key);
   };
 
   return (
@@ -52,7 +52,7 @@ const Piano = ({ noteDisplay, clefNotes }) => {
       >
         {clefNotes.map((note) => {
           return note.sharp ? (
-            <div key={note.name} className="key-container">
+            <div key={note.key} className="key-container">
               <PianoNote
                 note={note}
                 playNote={playNote}
@@ -76,7 +76,7 @@ const Piano = ({ noteDisplay, clefNotes }) => {
             </div>
           ) : (
             <PianoNote
-              key={note.name}
+              key={note.key}
               note={note}
               playNote={playNote}
               currentNote={currentNote}
