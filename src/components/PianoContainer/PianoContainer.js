@@ -1,19 +1,22 @@
 import { useState } from "react";
-import TreblePiano from "../TreblePiano/TreblePiano";
+import Piano from "../Piano/Piano";
 import PianoController from "./PianoController";
 
-import "./pianoContainer.css"
+import "./pianoContainer.css";
+import trebleNotes from "../Piano/trebleNotes";
 
 const PianoContainer = () => {
   const [noteDisplay, setNoteDisplay] = useState("notes");
+  const [currentClefNotes, setCurrentClefNotes] = useState(trebleNotes);
 
   return (
     <div className="piano-container">
       <PianoController
         noteDisplay={noteDisplay}
         setNoteDisplay={setNoteDisplay}
+        setCurrentClefNotes={setCurrentClefNotes}
       />
-      <TreblePiano noteDisplay={noteDisplay} />
+      <Piano noteDisplay={noteDisplay} clefNotes={currentClefNotes} />
     </div>
   );
 };

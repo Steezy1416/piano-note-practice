@@ -9,7 +9,6 @@
     width: 100%;
     top: 50%;
     transform: translateY(-50%);
-
     font-family: 'Nunito Sans', sans-serif;
 }
 
@@ -82,3 +81,45 @@
     color: #023e8a;
     font-weight: 700;
 }
+
+
+.piano-controller-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 550px;
+    margin: 0 auto;
+
+}
+
+
+.clef-container {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.clef-btn {
+    width: 3.5rem;
+    height: 3.5rem;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    transition: transform 300ms;
+}
+
+.active-clef-btn {
+    transform: scale(1.6);
+}
+
+.bass-clef.active-clef-btn {
+    transform: scale(1.2);
+}
+
+
+.active-clef-btn svg {
+    fill: #00b4d8;
+}
+
+
+

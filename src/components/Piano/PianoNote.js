@@ -1,19 +1,16 @@
 import { useEffect, useRef } from "react";
 
-const TrebleNote = ({
+const PianoNote = ({
   note,
   playNote,
   currentNote,
   setCurrentNote,
   noteDisplay,
   stopNote,
-  stopCurrentNote,
-  setStopCurrentNote,
+  noteToStop,
+  setNoteToStop,
 }) => {
   const { name, sound, isSharp, key } = note;
-
-  const noteRef = useRef(null);
-  const buttonRef = useRef(null);
 
   useEffect(() => {
     if (currentNote && currentNote === name) {
@@ -21,20 +18,22 @@ const TrebleNote = ({
       setCurrentNote("");
     }
 
-    if (stopCurrentNote && stopCurrentNote === name) {
-      console.log(stopCurrentNote);
+    if (noteToStop && noteToStop === name) {
       stopNote(noteRef);
-      setStopCurrentNote("");
+      setNoteToStop("");
     }
   }, [
     currentNote,
     name,
     playNote,
     setCurrentNote,
-    setStopCurrentNote,
-    stopCurrentNote,
+    setNoteToStop,
+    noteToStop,
     stopNote,
   ]);
+
+  const noteRef = useRef(null);
+  const buttonRef = useRef(null);
 
   const handleAudio = () => {
     buttonRef.current.classList.toggle(
@@ -48,6 +47,9 @@ const TrebleNote = ({
       className={`key-${key} ${isSharp ? "black-key" : "white-key"}`}
       onMouseDown={() => playNote(noteRef)}
       onMouseUp={() => stopNote(noteRef)}
+      onMouseOut={() => stopNote(noteRef)}
+      onTouchStart={() => playNote(noteRef)}
+      onTouchEnd={() => stopNote(noteRef)}
     >
       {noteDisplay === "notes" ? name : noteDisplay === "keys" ? key : ""}
       <audio
@@ -55,10 +57,10 @@ const TrebleNote = ({
         onPause={handleAudio}
         ref={noteRef}
         src={sound}
-        preload="none"
+        preload="auto"
       />
     </button>
   );
 };
 
-export default TrebleNote;
+export default PianoNote;
