@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import PianoNote from "./PianoNote";
 import "./treblePiano.css";
 
-const Piano = ({ noteDisplay, clefNotes }) => {
+const Piano = ({ noteDisplay, clefNotes, setPianoHasFocus, pianoHasFocus }) => {
   const pianoRef = useRef(null);
 
   const [currentNote, setCurrentNote] = useState();
@@ -10,7 +10,12 @@ const Piano = ({ noteDisplay, clefNotes }) => {
 
   useEffect(() => {
     pianoRef.current.focus();
-  }, []);
+    console.log("re render")
+  }, [pianoHasFocus]);
+
+  useEffect(() => {
+    console.log("component rerendered");
+  });
 
   const getPlayedNote = (e) => {
     const notesWithSharps = clefNotes.filter((note) => note.sharp);
@@ -49,6 +54,7 @@ const Piano = ({ noteDisplay, clefNotes }) => {
         ref={pianoRef}
         onKeyDown={handleKeyDown}
         onKeyUp={handleKeyUp}
+        onBlur={() => setPianoHasFocus(false)}
       >
         {clefNotes.map((note) => {
           return note.sharp ? (

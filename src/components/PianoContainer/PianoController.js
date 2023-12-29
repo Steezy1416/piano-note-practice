@@ -6,23 +6,28 @@ const PianoController = ({
   noteDisplay,
   setNoteDisplay,
   setCurrentClefNotes,
+  setPianoHasFocus
 }) => {
   const handleDisplayPick = (option) => {
     switch (option) {
       case 1: {
         setNoteDisplay("notes");
+        setPianoHasFocus(true)
         break;
       }
       case 2: {
         setNoteDisplay("keys");
+        setPianoHasFocus(true)
         break;
       }
       case 3: {
         setNoteDisplay("none");
+        setPianoHasFocus(true)
         break;
       }
       default: {
         setNoteDisplay("notes");
+        setPianoHasFocus(true)
         break;
       }
     }
@@ -33,6 +38,7 @@ const PianoController = ({
   const handleClef = (clefNotes, isTreble) => {
     setCurrentClefNotes(clefNotes);
     setIsTrebleClef(isTreble);
+    setPianoHasFocus(true)
   };
 
   return (
