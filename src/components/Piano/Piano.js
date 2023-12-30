@@ -1,21 +1,14 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import PianoNote from "./PianoNote";
 import "./treblePiano.css";
 
 const Piano = ({ noteDisplay, clefNotes, setPianoHasFocus, pianoHasFocus }) => {
   const pianoRef = useRef(null);
-
-  const [currentNote, setCurrentNote] = useState();
-  const [noteToStop, setNoteToStop] = useState();
+  const noteRefs = useRef([]);
 
   useEffect(() => {
     pianoRef.current.focus();
-    console.log("re render")
   }, [pianoHasFocus]);
-
-  useEffect(() => {
-    console.log("component rerendered");
-  });
 
   const getPlayedNote = (e) => {
     const notesWithSharps = clefNotes.filter((note) => note.sharp);
@@ -23,26 +16,32 @@ const Piano = ({ noteDisplay, clefNotes, setPianoHasFocus, pianoHasFocus }) => {
     const allNotes = [...clefNotes, ...sharpNotes];
     const playedNote = allNotes.filter((note) => note.key === e.key)[0] || "";
 
-    return playedNote;
+    return playedNote.noteIndex;
   };
 
-  const playNote = (note) => {
-    note.current.play();
+  const playNote = (noteIndex) => {
+    noteRefs.current[noteIndex].play();
   };
 
-  const stopNote = (note) => {
+  const stopNote = (noteIndex) => {
     setTimeout(() => {
-      note.current.pause();
-      note.current.currentTime = 0;
+      noteRefs.current[noteIndex].pause();
+      noteRefs.current[noteIndex].currentTime = 0;
     }, 400);
   };
 
   const handleKeyDown = (e) => {
-    setCurrentNote(getPlayedNote(e).key);
+    let playedNote = getPlayedNote(e);
+    if (playedNote >= 0) {
+      playNote(playedNote);
+    }
   };
 
   const handleKeyUp = (e) => {
-    setNoteToStop(getPlayedNote(e).key);
+    let playedNote = getPlayedNote(e);
+    if (playedNote >= 0) {
+      stopNote(playedNote);
+    }
   };
 
   return (
@@ -62,22 +61,16 @@ const Piano = ({ noteDisplay, clefNotes, setPianoHasFocus, pianoHasFocus }) => {
               <PianoNote
                 note={note}
                 playNote={playNote}
-                currentNote={currentNote}
-                setCurrentNote={setCurrentNote}
                 noteDisplay={noteDisplay}
                 stopNote={stopNote}
-                noteToStop={noteToStop}
-                setNoteToStop={setNoteToStop}
+                ref={(ref) => (noteRefs.current[note.noteIndex] = ref)}
               />
               <PianoNote
                 note={note.sharp}
                 playNote={playNote}
-                currentNote={currentNote}
-                setCurrentNote={setCurrentNote}
                 noteDisplay={noteDisplay}
                 stopNote={stopNote}
-                noteToStop={noteToStop}
-                setNoteToStop={setNoteToStop}
+                ref={(ref) => (noteRefs.current[note.sharp.noteIndex] = ref)}
               />
             </div>
           ) : (
@@ -85,12 +78,9 @@ const Piano = ({ noteDisplay, clefNotes, setPianoHasFocus, pianoHasFocus }) => {
               key={note.key}
               note={note}
               playNote={playNote}
-              currentNote={currentNote}
-              setCurrentNote={setCurrentNote}
               noteDisplay={noteDisplay}
               stopNote={stopNote}
-              noteToStop={noteToStop}
-              setNoteToStop={setNoteToStop}
+              ref={(ref) => (noteRefs.current[note.noteIndex] = ref)}
             />
           );
         })}

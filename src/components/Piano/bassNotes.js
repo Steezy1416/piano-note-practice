@@ -21,11 +21,13 @@ const bassNotes = [
     sound: noteC,
     key: "a",
     isSharp: false,
+    noteIndex: 0,
     sharp: {
       name: "c#",
       sound: noteCs,
       isSharp: true,
       key: "w",
+      noteIndex: 1,
     },
   },
   {
@@ -33,11 +35,13 @@ const bassNotes = [
     sound: noteD,
     isSharp: false,
     key: "s",
+    noteIndex: 2,
     sharp: {
       name: "d#",
       sound: noteDs,
       isSharp: true,
       key: "e",
+      noteIndex: 3,
     },
   },
   {
@@ -45,17 +49,20 @@ const bassNotes = [
     sound: noteE,
     isSharp: false,
     key: "d",
+    noteIndex: 4,
   },
   {
     name: "f",
     sound: noteF,
     isSharp: false,
     key: "f",
+    noteIndex: 5,
     sharp: {
       name: "f#",
       sound: noteFs,
       isSharp: true,
       key: "t",
+      noteIndex: 6,
     },
   },
   {
@@ -63,11 +70,13 @@ const bassNotes = [
     sound: noteG,
     isSharp: false,
     key: "g",
+    noteIndex: 7,
     sharp: {
       name: "g#",
       sound: noteGs,
       isSharp: true,
       key: "y",
+      noteIndex: 8,
     },
   },
   {
@@ -75,11 +84,13 @@ const bassNotes = [
     sound: noteA,
     isSharp: false,
     key: "h",
+    noteIndex: 9,
     sharp: {
       name: "a#",
       sound: noteAs,
       isSharp: true,
       key: "u",
+      noteIndex: 10,
     },
   },
   {
@@ -87,12 +98,14 @@ const bassNotes = [
     sound: noteB,
     isSharp: false,
     key: "j",
+    noteIndex: 11,
   },
   {
     name: "c",
     sound: octaveC,
     isSharp: false,
     key: "k",
+    noteIndex: 12,
   },
 ];
 
