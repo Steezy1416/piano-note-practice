@@ -6,7 +6,9 @@ const PianoController = ({
   noteDisplay,
   setNoteDisplay,
   setCurrentClefNotes,
-  setPianoHasFocus
+  setPianoHasFocus,
+  isSustainOn,
+  setIsSustainOn
 }) => {
   const handleDisplayPick = (option) => {
     switch (option) {
@@ -41,8 +43,16 @@ const PianoController = ({
     setPianoHasFocus(true)
   };
 
+  const handleSustain = () => {
+    setIsSustainOn(!isSustainOn)
+    setPianoHasFocus(true)
+  }
+
   return (
     <div className="piano-controller-container">
+      <div>
+        <button onClick={handleSustain}>Sustain</button>
+      </div>
       <div className="wrapper">
         <div className="display-container">
           <p className="display-title">Display</p>

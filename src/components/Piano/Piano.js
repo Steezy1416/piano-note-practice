@@ -2,9 +2,49 @@ import { useEffect, useRef } from "react";
 import PianoNote from "./PianoNote";
 import "./treblePiano.css";
 
-const Piano = ({ noteDisplay, clefNotes, setPianoHasFocus, pianoHasFocus }) => {
+const Piano = ({
+  noteDisplay,
+  clefNotes,
+  setPianoHasFocus,
+  pianoHasFocus,
+  isSustainOn,
+}) => {
   const pianoRef = useRef(null);
   const noteRefs = useRef([]);
+  const pianoNoteRefs = useRef([]);
+  const noteTimers = useRef(
+    Array.from({ length: 13 }, () => ({
+      timeoutId: null,
+    }))
+  );
+  const currentKeyIndex = useRef(null);
+
+  const currentNoteSources = useRef([]);
+  const audioContext = useRef(new AudioContext());
+
+  const notesWithSharps = clefNotes.filter((note) => note.sharp);
+  const sharpNotes = notesWithSharps.map((note) => note.sharp);
+  let allNotes = [...clefNotes, ...sharpNotes];
+
+  allNotes.sort((a, b) => a.noteIndex - b.noteIndex);
+
+  useEffect(() => {
+    const loadBuffers = async () => {
+      const audioBufferArray = await Promise.all(
+        allNotes.map(async (note) => {
+          const response = await fetch(note.sound);
+          const arrayBuffer = await response.arrayBuffer();
+          const audioBuffer = await audioContext.current.decodeAudioData(
+            arrayBuffer
+          );
+          return audioBuffer;
+        })
+      );
+      noteRefs.current = audioBufferArray;
+    };
+
+    loadBuffers();
+  });
 
   useEffect(() => {
     pianoRef.current.focus();
@@ -15,25 +55,67 @@ const Piano = ({ noteDisplay, clefNotes, setPianoHasFocus, pianoHasFocus }) => {
     const sharpNotes = notesWithSharps.map((note) => note.sharp);
     const allNotes = [...clefNotes, ...sharpNotes];
     const playedNote = allNotes.filter((note) => note.key === e.key)[0] || "";
-
     return playedNote.noteIndex;
   };
 
-  const playNote = (noteIndex) => {
-    noteRefs.current[noteIndex].play();
+  const updateKeys = (noteIndex) => {
+    const isSharp = allNotes[noteIndex].isSharp;
+
+    pianoNoteRefs.current[noteIndex].classList.toggle(
+      isSharp ? "black-key-audio" : "white-key-audio"
+    );
   };
 
-  const stopNote = (noteIndex) => {
-    setTimeout(() => {
-      noteRefs.current[noteIndex].pause();
-      noteRefs.current[noteIndex].currentTime = 0;
-    }, 400);
+  const playNote = (noteIndex, e) => {
+    if (e.repeat) return;
+
+    currentKeyIndex.current = noteIndex;
+
+    const noteSource = audioContext.current.createBufferSource();
+    noteSource.buffer = noteRefs.current[noteIndex];
+    noteSource.connect(audioContext.current.destination);
+
+    if (noteTimers.current[noteIndex].timeoutId) {
+      clearTimeout(noteTimers.current[noteIndex].timeoutId);
+      currentNoteSources.current[noteIndex].stop();
+      currentNoteSources.current[noteIndex].currentTime = 0;
+      updateKeys(noteIndex);
+    }
+
+    noteSource.start();
+    currentNoteSources.current[noteIndex] = noteSource;
+    updateKeys(noteIndex);
+  };
+
+  const stopNote = (noteIndex, e) => {
+    if (
+      !pianoNoteRefs.current[noteIndex].classList.contains("white-key-audio") &&
+      !pianoNoteRefs.current[noteIndex].classList.contains("black-key-audio")
+    ) {
+      return;
+    }
+
+    const noteSource = currentNoteSources.current[noteIndex];
+
+    if (noteTimers.current[noteIndex].timeoutId) {
+      clearTimeout(noteTimers.current[noteIndex].timeoutId);
+    }
+
+    noteTimers.current[noteIndex].timeoutId = setTimeout(
+      () => {
+        noteSource.stop();
+        noteSource.currentTime = 0;
+        noteTimers.current[noteIndex].timeoutId = null;
+        updateKeys(noteIndex);
+      },
+      isSustainOn ? 1000 : 150
+    );
   };
 
   const handleKeyDown = (e) => {
     let playedNote = getPlayedNote(e);
     if (playedNote >= 0) {
-      playNote(playedNote);
+      playNote(playedNote, e);
     }
   };
 
@@ -44,11 +126,20 @@ const Piano = ({ noteDisplay, clefNotes, setPianoHasFocus, pianoHasFocus }) => {
     }
   };
 
+  const handleMouseOut = (noteIndex) => {
+    if (
+      pianoNoteRefs.current[noteIndex].classList.contains("black-key-audio") ||
+      pianoNoteRefs.current[noteIndex].classList.contains("white-key-audio")
+    ) {
+      stopNote(noteIndex);
+    } else return;
+  };
+
   return (
     <div className="treble-piano-content">
       <div
         className="treble-piano"
-        onClick={() => pianoRef.current.focus}
+        onClick={() => pianoRef.current.focus()}
         tabIndex={0}
         ref={pianoRef}
         onKeyDown={handleKeyDown}
@@ -63,14 +154,20 @@ const Piano = ({ noteDisplay, clefNotes, setPianoHasFocus, pianoHasFocus }) => {
                 playNote={playNote}
                 noteDisplay={noteDisplay}
                 stopNote={stopNote}
-                ref={(ref) => (noteRefs.current[note.noteIndex] = ref)}
+                currentKeyIndex={currentKeyIndex.current}
+                handleMouseOut={handleMouseOut}
+                ref={(ref) => (pianoNoteRefs.current[note.noteIndex] = ref)}
               />
               <PianoNote
                 note={note.sharp}
                 playNote={playNote}
                 noteDisplay={noteDisplay}
                 stopNote={stopNote}
-                ref={(ref) => (noteRefs.current[note.sharp.noteIndex] = ref)}
+                currentKeyIndex={currentKeyIndex.current}
+                handleMouseOut={handleMouseOut}
+                ref={(ref) =>
+                  (pianoNoteRefs.current[note.sharp.noteIndex] = ref)
+                }
               />
             </div>
           ) : (
@@ -80,7 +177,9 @@ const Piano = ({ noteDisplay, clefNotes, setPianoHasFocus, pianoHasFocus }) => {
               playNote={playNote}
               noteDisplay={noteDisplay}
               stopNote={stopNote}
-              ref={(ref) => (noteRefs.current[note.noteIndex] = ref)}
+              currentKeyIndex={currentKeyIndex.current}
+              handleMouseOut={handleMouseOut}
+              ref={(ref) => (pianoNoteRefs.current[note.noteIndex] = ref)}
             />
           );
         })}

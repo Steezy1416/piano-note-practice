@@ -8,7 +8,8 @@ import trebleNotes from "../Piano/trebleNotes";
 const PianoContainer = () => {
   const [noteDisplay, setNoteDisplay] = useState("notes");
   const [currentClefNotes, setCurrentClefNotes] = useState(trebleNotes);
-  const [pianoHasFocus, setPianoHasFocus] = useState(true)
+  const [pianoHasFocus, setPianoHasFocus] = useState(true);
+  const [isSustainOn, setIsSustainOn] = useState(false);
 
   return (
     <div className="piano-container">
@@ -17,8 +18,16 @@ const PianoContainer = () => {
         setNoteDisplay={setNoteDisplay}
         setCurrentClefNotes={setCurrentClefNotes}
         setPianoHasFocus={setPianoHasFocus}
+        isSustainOn={isSustainOn}
+        setIsSustainOn={setIsSustainOn}
       />
-      <Piano noteDisplay={noteDisplay} clefNotes={currentClefNotes}  setPianoHasFocus={setPianoHasFocus} pianoHasFocus={pianoHasFocus}/>
+      <Piano
+        noteDisplay={noteDisplay}
+        clefNotes={currentClefNotes}
+        setPianoHasFocus={setPianoHasFocus}
+        pianoHasFocus={pianoHasFocus}
+        isSustainOn={isSustainOn}
+      />
     </div>
   );
 };
