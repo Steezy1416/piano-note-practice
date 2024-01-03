@@ -12,15 +12,11 @@ const Piano = ({
   const pianoRef = useRef(null);
   const audioBufferRefs = useRef([]);
   const pianoNoteRefs = useRef([]);
-  const noteTimers = useRef(
-    Array.from({ length: 13 }, () => ({
-      timeoutId: null,
-    }))
-  );
 
   const notesCurrentlyPlaying = useRef(
     Array.from({ length: 13 }, () => ({
       audioBuffer: null,
+      scheduledToStop: false,
     }))
   );
   const audioContext = useRef(new AudioContext());
@@ -59,23 +55,27 @@ const Piano = ({
     return playedNote.noteIndex;
   };
 
-  const updateKeys = (noteIndex) => {
-    pianoNoteRefs.current[noteIndex].classList.toggle("currently-playing");
+  const updateKeys = (noteIndex, isActive) => {
+    if (isActive) {
+      pianoNoteRefs.current[noteIndex].classList.add("currently-playing");
+    } else {
+      pianoNoteRefs.current[noteIndex].classList.remove("currently-playing");
+    }
   };
 
   const playNote = (noteIndex, e) => {
     //stops note from playing over and over again if key is help down wihtout moving
     if (e.repeat) return;
+    const currentNote = notesCurrentlyPlaying.current[noteIndex];
 
-    //prevents note from playing wihtout being stopped if notes gets played twice without calling stop note in the middle
-    if (notesCurrentlyPlaying.current[noteIndex].audioBuffer) {
+    //prevents note from ringing continuosly if notes gets played twice without calling stop note in the process
+    if (currentNote.audioBuffer) {
       if (
-        notesCurrentlyPlaying.current[noteIndex].audioBuffer.context.state ===
-          "running" &&
-        !noteTimers.current[noteIndex].timeoutId
+        currentNote.audioBuffer.context.state === "running" &&
+        currentNote.scheduledToStop === false
       ) {
-        notesCurrentlyPlaying.current[noteIndex].audioBuffer.stop();
-        notesCurrentlyPlaying.current[noteIndex].audioBuffer.currentTime = 0;
+        currentNote.audioBuffer.stop();
+        currentNote.audioBuffer.currentTime = 0;
         updateKeys(noteIndex);
       }
     }
@@ -87,23 +87,24 @@ const Piano = ({
 
     /*
     if a note is ringing and is scheduled to stop after a few seconds it
-    will cancel the timeout and stop the note immediately
+    will stop the note immediately
     */
-    if (noteTimers.current[noteIndex].timeoutId) {
-      clearTimeout(noteTimers.current[noteIndex].timeoutId);
-      notesCurrentlyPlaying.current[noteIndex].audioBuffer.stop();
-      notesCurrentlyPlaying.current[noteIndex].audioBuffer.currentTime = 0;
+    if (currentNote.scheduledToStop) {
+      currentNote.scheduledToStop = false;
+      currentNote.audioBuffer.stop();
+      currentNote.audioBuffer.currentTime = 0;
       updateKeys(noteIndex);
     }
 
     //plays audio
+
     noteSource.start();
     //saves the note that is playing in array
-    notesCurrentlyPlaying.current[noteIndex].audioBuffer = noteSource;
-    updateKeys(noteIndex);
+    currentNote.audioBuffer = noteSource;
+    updateKeys(noteIndex, true);
   };
 
-  const stopNote = (noteIndex, e) => {
+  const stopNote = (noteIndex) => {
     // returns if a note that is not playing gets called to stop
     if (
       !pianoNoteRefs.current[noteIndex].classList.contains("currently-playing")
@@ -111,45 +112,24 @@ const Piano = ({
       return;
     }
 
-    const noteSource = notesCurrentlyPlaying.current[noteIndex].audioBuffer;
+    const noteSource = notesCurrentlyPlaying.current[noteIndex];
 
-    // cancels the initial timeout if a note gets called to stop without it ever getting called to play
-    if (noteTimers.current[noteIndex].timeoutId) {
-      clearTimeout(noteTimers.current[noteIndex].timeoutId);
-    }
-
-    //when key gets released the note gets a timeoutId and will stop ringing after a few seconds
-    noteTimers.current[noteIndex].timeoutId = setTimeout(
-      () => {
-        const updatedNotesCurrentlyPlaying = notesCurrentlyPlaying.current.map(
-          (note) => {
-            if (note.audioBuffer === noteSource) {
-              return { audioBuffer: null };
-            } else return note;
-          }
-        );
-        noteSource.stop();
-        noteSource.currentTime = 0;
-        noteTimers.current[noteIndex].timeoutId = null;
-        notesCurrentlyPlaying.current = updatedNotesCurrentlyPlaying;
-        updateKeys(noteIndex);
-      },
-      isSustainOn ? 1000 : 150
-    );
+    //when key gets released the note will stop ringing after a few seconds
+    const currentTime = audioContext.current.currentTime;
+    noteSource.audioBuffer.stop(currentTime + (isSustainOn ? 0.9 : 0.15));
+    noteSource.audioBuffer.currentTime = 0;
+    noteSource.scheduledToStop = true;
+    updateKeys(noteIndex, false);
   };
 
   const handleKeyDown = (e) => {
     let playedNoteIndex = getPlayedNoteIndex(e);
-    if (playedNoteIndex >= 0) {
-      playNote(playedNoteIndex, e);
-    }
+    playNote(playedNoteIndex, e);
   };
 
   const handleKeyUp = (e) => {
     let playedNoteIndex = getPlayedNoteIndex(e);
-    if (playedNoteIndex >= 0) {
-      stopNote(playedNoteIndex);
-    }
+    stopNote(playedNoteIndex);
   };
 
   const handleMouseOut = (noteIndex) => {
