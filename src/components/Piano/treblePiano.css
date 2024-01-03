@@ -46,7 +46,7 @@
   box-shadow: inset -10px -37px 106px -71px rgba(0, 0, 0, 1);
 }
 
-.white-key.white-key-audio {
+.white-key.currently-playing {
   box-shadow: inset -10px -37px 106px -49px rgba(0, 0, 0, 1);
 }
 
@@ -64,7 +64,7 @@
   z-index: 1;
 }
 
-.black-key.black-key-audio {
+.black-key.currently-playing {
   box-shadow: -4px -2px 5px 0px rgba(130, 128, 128, 0.75) inset;
 }
 
