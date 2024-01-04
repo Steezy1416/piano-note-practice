@@ -17,6 +17,7 @@ const Piano = ({
     Array.from({ length: 13 }, () => ({
       audioBuffer: null,
       scheduledToStop: false,
+      gain: null,
     }))
   );
   const audioContext = useRef(new AudioContext());
@@ -68,39 +69,41 @@ const Piano = ({
     if (e.repeat) return;
     const currentNote = notesCurrentlyPlaying.current[noteIndex];
 
+    //gets and connects the audio source to the speakers
+    const noteSource = audioContext.current.createBufferSource();
+
+    const gainNode = audioContext.current.createGain();
+    noteSource.buffer = audioBufferRefs.current[noteIndex];
+    noteSource.connect(gainNode);
+    gainNode.connect(audioContext.current.destination);
+
     //prevents note from ringing continuosly if notes gets played twice without calling stop note in the process
     if (currentNote.audioBuffer) {
       if (
         currentNote.audioBuffer.context.state === "running" &&
         currentNote.scheduledToStop === false
       ) {
-        currentNote.audioBuffer.stop();
-        currentNote.audioBuffer.currentTime = 0;
-        updateKeys(noteIndex);
+        return;
       }
     }
 
-    //gets and connects the audio source to the speakers
-    const noteSource = audioContext.current.createBufferSource();
-    noteSource.buffer = audioBufferRefs.current[noteIndex];
-    noteSource.connect(audioContext.current.destination);
-
-    /*
-    if a note is ringing and is scheduled to stop after a few seconds it
-    will stop the note immediately
-    */
+    //if a note is ringing and is scheduled to stop after a few seconds it will stop the note immediately
     if (currentNote.scheduledToStop) {
+      //gain prevents clicking noise when audio ends
       currentNote.scheduledToStop = false;
-      currentNote.audioBuffer.stop();
+      gainNode.gain.setTargetAtTime(0, audioContext.current.currentTime, 0.001);
+      currentNote.audioBuffer.stop(audioContext.current.currentTime + 2.5);
       currentNote.audioBuffer.currentTime = 0;
       updateKeys(noteIndex);
     }
 
-    //plays audio
+    gainNode.gain.setValueAtTime(1, audioContext.current.currentTime);
 
+    //plays audio
     noteSource.start();
     //saves the note that is playing in array
     currentNote.audioBuffer = noteSource;
+    currentNote.gain = gainNode;
     updateKeys(noteIndex, true);
   };
 
@@ -113,10 +116,16 @@ const Piano = ({
     }
 
     const noteSource = notesCurrentlyPlaying.current[noteIndex];
+    const currentTime = audioContext.current.currentTime;
 
     //when key gets released the note will stop ringing after a few seconds
-    const currentTime = audioContext.current.currentTime;
-    noteSource.audioBuffer.stop(currentTime + (isSustainOn ? 0.9 : 0.15));
+    //gain prevents clicking noise when audio ends
+    noteSource.gain.gain.setTargetAtTime(
+      0,
+      audioContext.current.currentTime,
+      isSustainOn ? 0.8 : 0.015
+    );
+    noteSource.audioBuffer.stop(currentTime + (isSustainOn ? 2.2 : 2));
     noteSource.audioBuffer.currentTime = 0;
     noteSource.scheduledToStop = true;
     updateKeys(noteIndex, false);
@@ -124,12 +133,17 @@ const Piano = ({
 
   const handleKeyDown = (e) => {
     let playedNoteIndex = getPlayedNoteIndex(e);
-    playNote(playedNoteIndex, e);
+    //prevents from running if you press an unregistered key
+    if (playedNoteIndex >= 0) {
+      playNote(playedNoteIndex, e);
+    }
   };
 
   const handleKeyUp = (e) => {
     let playedNoteIndex = getPlayedNoteIndex(e);
-    stopNote(playedNoteIndex);
+    if (playedNoteIndex >= 0) {
+      stopNote(playedNoteIndex);
+    }
   };
 
   const handleMouseOut = (noteIndex) => {
