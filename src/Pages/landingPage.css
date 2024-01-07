@@ -1,0 +1,113 @@
+@font-face {
+  font-family: "Yasashii W01 Bold";
+  font-style: normal;
+  font-weight: normal;
+  src: url("../fonts/Yasashii\ W01\ Bold.woff2") format("woff2");
+}
+
+.landing-page {
+  height: 100vh;
+  font-family: "Yasashii W01 Bold";
+  background-color: #0d0d0d;
+  position: relative;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  padding: 1.5rem;
+  gap: 1.5rem;
+}
+
+.blur {
+  position: absolute;
+  inset: 0;
+  background-color: #0d0d0d;
+  backdrop-filter: saturate(180%) blur(10px);
+}
+
+.landing-page-content {
+  position: relative;
+  color: #dfdfdf;
+  background-color: #0f0f0f;
+  display: grid;
+  place-items: center;
+}
+
+.max-width-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4rem;
+}
+
+h1 {
+  text-align: center;
+  font-size: 10rem;
+  font-weight: normal;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+.bg-image-container {
+  background-image: url("../images/1-grand-piano-on-stage-yenwen.jpg");
+  background-size: cover;
+  background-position: bottom center;
+  position: relative;
+}
+.bg-image-container::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: rgba(26, 26, 26, 0.2);
+  backdrop-filter: saturate(180%);
+}
+
+@keyframes slide {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+.image-slider-container {
+  height: 10rem;
+  overflow: hidden;
+  width: 100%;
+  white-space: nowrap;
+  position: relative;
+}
+
+.image-slider-container::before {
+  position: absolute;
+  content: "";
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 150px;
+  z-index: 1;
+  background: linear-gradient(to left, rgba(255, 255, 255, 0), #0f0f0f);
+}
+.image-slider-container::after {
+  position: absolute;
+  content: "";
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 150px;
+  z-index: 1;
+  background: linear-gradient(to right, rgba(255, 255, 255, 0), #0f0f0f);
+}
+
+.image-slider-container:hover .image-slider {
+  animation-play-state: paused;
+}
+
+.image-slider {
+  display: inline-block;
+  animation: slide 10s infinite linear;
+}
+
+.landing-page-scale-img {
+  display: inline;
+}
