@@ -5,43 +5,46 @@
   src: url("../fonts/Yasashii\ W01\ Bold.woff2") format("woff2");
 }
 
-.landing-page {
-  height: 100vh;
-  font-family: "Yasashii W01 Bold";
-  background-color: #0d0d0d;
-  position: relative;
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  padding: 1.5rem;
-  gap: 1.5rem;
+@font-face {
+  font-family: "Pathway Gothic One";
+  src: url("../fonts/MwQrbgD32-KAvjkYGNUUxAtW7pEBwx-tS1ZfTc4PlA.woff2");
+  font-weight: normal;
+  font-style: normal;
 }
 
-.blur {
-  position: absolute;
-  inset: 0;
+.landing-page {
+  height: 100dvh;
+  font-family: "Yasashii W01 Bold";
   background-color: #0d0d0d;
-  backdrop-filter: saturate(180%) blur(10px);
+  padding: 1.5rem 0;
 }
 
 .landing-page-content {
-  position: relative;
   color: #dfdfdf;
-  background-color: #0f0f0f;
+  background-color: #0d0d0d;
+  padding: 0 1.5rem;
+  margin: 0 auto;
+  height: 100%;
   display: grid;
-  place-items: center;
+  grid-template-columns: minmax(0, 2fr) 1fr;
+  gap: 1rem;
+  grid-template-areas: "content-container  bg-image";
 }
 
-.max-width-wrapper {
+.content-container {
+  background-color: #0f0f0f;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  gap: 4rem;
+  justify-content: center;
+  gap: 6rem;
+  grid-area: content-container;
+  max-width: 100%;
 }
 
 h1 {
   text-align: center;
-  font-size: 10rem;
+  font-size: clamp(4.3rem, 10vw + 1rem, 10rem);
   font-weight: normal;
   line-height: 1;
   -webkit-font-smoothing: antialiased;
@@ -52,7 +55,10 @@ h1 {
   background-size: cover;
   background-position: bottom center;
   position: relative;
+  grid-area: bg-image;
+  max-width: 100%;
 }
+
 .bg-image-container::after {
   content: "";
   position: absolute;
@@ -62,23 +68,20 @@ h1 {
 }
 
 @keyframes slide {
-  from {
-    transform: translateX(0);
-  }
   to {
-    transform: translateX(-100%);
+    transform: translateX(-50%);
   }
 }
 
 .image-slider-container {
   height: 10rem;
   overflow: hidden;
-  width: 100%;
-  white-space: nowrap;
   position: relative;
+  max-width: 100%;
 }
 
-.image-slider-container::before {
+.image-slider-container::before,
+.image-slider-container::after {
   position: absolute;
   content: "";
   top: 0;
@@ -89,13 +92,8 @@ h1 {
   background: linear-gradient(to left, rgba(255, 255, 255, 0), #0f0f0f);
 }
 .image-slider-container::after {
-  position: absolute;
-  content: "";
-  top: 0;
+  left: initial;
   right: 0;
-  bottom: 0;
-  width: 150px;
-  z-index: 1;
   background: linear-gradient(to right, rgba(255, 255, 255, 0), #0f0f0f);
 }
 
@@ -104,10 +102,46 @@ h1 {
 }
 
 .image-slider {
-  display: inline-block;
-  animation: slide 10s infinite linear;
+  width: max-content;
+  display: flex;
+  animation: slide 35s linear infinite;
 }
 
-.landing-page-scale-img {
-  display: inline;
+.landing-page-btn {
+  border-radius: 5px;
+  font-size: 1.5rem;
+  font-family: "Pathway Gothic One";
+  background-color: transparent;
+  color: #dfdfdf;
+  border: 1px solid #dfdfdf;
+  padding: 0.5em 1em;
+}
+
+.landing-page-btn:hover {
+  background-color: #dfdfdf;
+  color: black;
+}
+
+@media (max-width: 500px) {
+  .landing-page,
+  .landing-page-content {
+    background-color: #0f0f0f;
+  }
+
+  .landing-page-content {
+    grid-template-columns: minmax(0, 1fr);
+    gap: initial;
+  }
+
+  .bg-image-container {
+    display: none;
+  }
+
+  .landing-page-btn {
+    font-size: 1.2rem;
+  }
+
+  .image-slider-container {
+    max-width: 100vw;
+  }
 }
