@@ -1,10 +1,12 @@
 import "./landingPage.css";
-import scaleUp from "../images/Frame 2.svg";
-import scaleDown from "../images/Frame 16.svg";
+import scaleUp from "../images/scaleUp.svg";
+import scaleDown from "../images/scaleDown.svg";
 import photographUp from "../images/photgraphUp.svg";
 import photographDown from "../images/photographDown.svg";
-import randomChords from "../images/Frame 19.svg";
-import random from "../images/Frame 20.svg";
+import randomChords from "../images/chords.svg";
+import random from "../images/randomProgression.svg";
+
+import {Link} from "react-router-dom"
 
 const LandingPage = () => {
   return (
@@ -16,7 +18,7 @@ const LandingPage = () => {
               PIANO NOTE <br /> PRACTICE
             </h1>
           </div>
-          <button className="landing-page-btn">GET STARTED</button>
+          <Link to={"/piano"} className="landing-page-btn">GET STARTED</Link>
           <div className="image-slider-container">
             <div className="image-slider">
               <img className="landing-page-scale-img" alt="" src={scaleUp} />

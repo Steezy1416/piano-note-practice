@@ -2,12 +2,12 @@
   font-family: "Yasashii W01 Bold";
   font-style: normal;
   font-weight: normal;
-  src: url("../fonts/Yasashii\ W01\ Bold.woff2") format("woff2");
+  src: url("../fonts/yassashiiBold.woff2") format("woff2");
 }
 
 @font-face {
   font-family: "Pathway Gothic One";
-  src: url("../fonts/MwQrbgD32-KAvjkYGNUUxAtW7pEBwx-tS1ZfTc4PlA.woff2");
+  src: url("../fonts/pathicGothicOne.woff2");
   font-weight: normal;
   font-style: normal;
 }
@@ -115,6 +115,8 @@ h1 {
   color: #dfdfdf;
   border: 1px solid #dfdfdf;
   padding: 0.5em 1em;
+  text-decoration: none;
+  cursor: pointer;
 }
 
 .landing-page-btn:hover {
