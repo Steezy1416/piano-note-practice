@@ -3,11 +3,11 @@ import Piano from "../Piano/Piano";
 import PianoController from "./PianoController";
 
 import "./pianoContainer.css";
-import trebleNotes from "../Piano/trebleNotes";
+import getOctaveNotes from "../Piano/octaveNotes";
 
 const PianoContainer = () => {
   const [noteDisplay, setNoteDisplay] = useState("notes");
-  const [currentClefNotes, setCurrentClefNotes] = useState(trebleNotes);
+  const [currentClefNotes, setCurrentClefNotes] = useState(getOctaveNotes(2));
   const [pianoHasFocus, setPianoHasFocus] = useState(true);
   const [isSustainOn, setIsSustainOn] = useState(false);
 

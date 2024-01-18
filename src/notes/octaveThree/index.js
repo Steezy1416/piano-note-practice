@@ -10,22 +10,22 @@ import noteGs from "./3-gs.wav";
 import noteA from "./3-a.wav";
 import noteAs from "./3-as.wav";
 import noteB from "./3-b.wav";
-import octaveC from "./4-c.wav"
+import octaveC from "../octaveFour/4-c.wav";
 
-const trebleNotesSources = {
-  noteC,
-  noteCs,
-  noteD,
-  noteDs,
-  noteE,
-  noteF,
-  noteFs,
-  noteG,
-  noteGs,
-  noteA,
-  noteAs,
-  noteB,
-  octaveC
+const octaveThreeNotes = {
+    noteC,
+    noteCs,
+    noteD,
+    noteDs,
+    noteE,
+    noteF,
+    noteFs,
+    noteG,
+    noteGs,
+    noteA,
+    noteAs,
+    noteB,
+    octaveC,
 };
 
-export default trebleNotesSources;
+export default octaveThreeNotes;

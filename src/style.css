@@ -40,3 +40,17 @@ h5,
 h6 {
   overflow-wrap: break-word;
 }
+
+@font-face {
+  font-family: "Yasashii W01 Bold";
+  font-style: normal;
+  font-weight: normal;
+  src: url("./fonts/yassashiiBold.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Pathway Gothic One";
+  src: url("./fonts/pathicGothicOne.woff2");
+  font-weight: normal;
+  font-style: normal;
+}
