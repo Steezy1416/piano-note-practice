@@ -1,0 +1,135 @@
+.landing-page {
+  height: 100dvh;
+  font-family: "Yasashii W01 Bold";
+  background-color: #0d0d0d;
+  padding: 1.5rem 0;
+}
+
+.landing-page-content {
+  color: #dfdfdf;
+  background-color: #0d0d0d;
+  padding: 0 1.5rem;
+  margin: 0 auto;
+  height: 100%;
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) 1fr;
+  gap: 1rem;
+  grid-template-areas: "content-container  bg-image";
+}
+
+.content-container {
+  background-color: #0f0f0f;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6rem;
+  grid-area: content-container;
+  max-width: 100%;
+}
+
+h1 {
+  text-align: center;
+  font-size: clamp(4.3rem, 10vw + 1rem, 10rem);
+  font-weight: normal;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+.bg-image-container {
+  background-image: url("../images/1-grand-piano-on-stage-yenwen.jpg");
+  background-size: cover;
+  background-position: bottom center;
+  position: relative;
+  grid-area: bg-image;
+  max-width: 100%;
+}
+
+.bg-image-container::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: rgba(26, 26, 26, 0.2);
+  backdrop-filter: saturate(180%);
+}
+
+@keyframes slide {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.image-slider-container {
+  height: 10rem;
+  overflow: hidden;
+  position: relative;
+  max-width: 100%;
+}
+
+.image-slider-container::before,
+.image-slider-container::after {
+  position: absolute;
+  content: "";
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 150px;
+  z-index: 1;
+  background: linear-gradient(to left, rgba(255, 255, 255, 0), #0f0f0f);
+}
+.image-slider-container::after {
+  left: initial;
+  right: 0;
+  background: linear-gradient(to right, rgba(255, 255, 255, 0), #0f0f0f);
+}
+
+.image-slider-container:hover .image-slider {
+  animation-play-state: paused;
+}
+
+.image-slider {
+  width: max-content;
+  display: flex;
+  animation: slide 35s linear infinite;
+}
+
+.landing-page-btn {
+  border-radius: 5px;
+  font-size: 1.5rem;
+  font-family: "Pathway Gothic One";
+  background-color: transparent;
+  color: #dfdfdf;
+  border: 1px solid #dfdfdf;
+  padding: 0.5em 1em;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.landing-page-btn:hover {
+  background-color: #dfdfdf;
+  color: black;
+}
+
+@media (max-width: 500px) {
+  .landing-page,
+  .landing-page-content {
+    background-color: #0f0f0f;
+  }
+
+  .landing-page-content {
+    grid-template-columns: minmax(0, 1fr);
+    gap: initial;
+  }
+
+  .bg-image-container {
+    display: none;
+  }
+
+  .landing-page-btn {
+    font-size: 1.2rem;
+  }
+
+  .image-slider-container {
+    max-width: 100vw;
+  }
+}
