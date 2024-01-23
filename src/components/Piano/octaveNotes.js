@@ -1,40 +1,6 @@
 import octaves from "../../notes";
 
-const getOctaveNotes = (index) => {
-  const getOctaveSounds = (index) => {
-    const {
-      noteC,
-      noteCs,
-      noteD,
-      noteDs,
-      noteE,
-      noteF,
-      noteFs,
-      noteG,
-      noteGs,
-      noteA,
-      noteAs,
-      noteB,
-      octaveC,
-    } = octaves[index];
-
-    return {
-      noteC,
-      noteCs,
-      noteD,
-      noteDs,
-      noteE,
-      noteF,
-      noteFs,
-      noteG,
-      noteGs,
-      noteA,
-      noteAs,
-      noteB,
-      octaveC,
-    };
-  };
-
+const octaveNotes = octaves.map((octave) => {
   const {
     noteC,
     noteCs,
@@ -49,9 +15,9 @@ const getOctaveNotes = (index) => {
     noteAs,
     noteB,
     octaveC,
-  } = getOctaveSounds(index);
+  } = octave;
 
-  const octaveNotes = [
+  return [
     {
       name: "c",
       sound: noteC,
@@ -144,8 +110,6 @@ const getOctaveNotes = (index) => {
       noteIndex: 12,
     },
   ];
+});
 
-  return octaveNotes;
-};
-
-export default getOctaveNotes
+export default octaveNotes;

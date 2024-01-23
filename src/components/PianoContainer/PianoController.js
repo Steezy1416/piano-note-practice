@@ -1,5 +1,5 @@
 import { useState } from "react";
-import getOctaveNotes from "../Piano/octaveNotes";
+import octaveNotes from "../Piano/octaveNotes";
 
 const PianoController = ({
   noteDisplay,
@@ -12,17 +12,20 @@ const PianoController = ({
   const handleDisplayPick = (option) => {
     switch (option) {
       case 1: {
-        setNoteDisplay("notes");
+        if (noteDisplay === "notes") {
+          setNoteDisplay("none");
+        } else {
+          setNoteDisplay("notes");
+        }
         setPianoHasFocus(true);
         break;
       }
       case 2: {
-        setNoteDisplay("keys");
-        setPianoHasFocus(true);
-        break;
-      }
-      case 3: {
-        setNoteDisplay("none");
+        if (noteDisplay === "keys") {
+          setNoteDisplay("none");
+        } else {
+          setNoteDisplay("keys");
+        }
         setPianoHasFocus(true);
         break;
       }
@@ -34,10 +37,11 @@ const PianoController = ({
     }
   };
   const [currentOctaveIndex, setCurrentOctaveIndex] = useState(2);
+  const octaveOptions = [1, 2, 3, 4, 5, 6, 7];
 
-  const handleOctaveChange = (e) => {
-    setCurrentOctaveIndex(e.target.value);
-    setCurrentClefNotes(getOctaveNotes(e.target.value));
+  const handleOctaveChange = (index) => {
+    setCurrentOctaveIndex(index);
+    setCurrentClefNotes(octaveNotes[index]);
     setPianoHasFocus(true);
   };
 
@@ -48,56 +52,59 @@ const PianoController = ({
 
   return (
     <div className="piano-controller-container">
-      <div
-        className={`${
-          isSustainOn ? "sustain-btn-wrapper sustain-on" : "sustain-btn-wrapper"
-        }`}
+      <button
+        className={
+          isSustainOn ? "sustain-btn active-sustain-btn" : "sustain-btn"
+        }
+        onClick={handleSustain}
       >
-        <button className={`sustain-btn`} onClick={handleSustain}>
-          SUSTAIN
-        </button>
-      </div>
-      <div className="wrapper">
-        <div className="display-container">
-          <p className="display-title">Display</p>
-          <div className="display-option-container">
-            <div
-              className={`displayOption ${
-                noteDisplay === "notes" && "active-display-option"
-              }`}
-              onClick={() => handleDisplayPick(1)}
-            >
-              Notes
-            </div>
-            <div
-              className={`displayOption ${
-                noteDisplay === "keys" && "active-display-option"
-              } desktop-only`}
-              onClick={() => handleDisplayPick(2)}
-            >
-              Keys
-            </div>
-            <div
-              className={`displayOption ${
-                noteDisplay === "none" && "active-display-option"
-              }`}
-              onClick={() => handleDisplayPick(3)}
-            >
-              None
-            </div>
-          </div>
+        <div className="active-circle"></div>
+        SUSTAIN
+      </button>
+
+      <div className="octave-selection-container">
+        Octave
+        <div className="octave-row">
+          {octaveOptions.map((option, index) => {
+            return (
+              <button
+                key={option}
+                className={
+                  currentOctaveIndex === index
+                    ? "octave-btn active-octave-btn"
+                    : "octave-btn"
+                }
+                onClick={() => handleOctaveChange(index)}
+              >
+                {option}
+              </button>
+            );
+          })}
         </div>
       </div>
-      <div>
-        <select value={currentOctaveIndex} onChange={handleOctaveChange}>
-          <option value={0}>1st Octave</option>
-          <option value={1}>2nd Octave</option>
-          <option value={2}>3rd Octave</option>
-          <option value={3}>4th Octave</option>
-          <option value={4}>5th Octave</option>
-          <option value={5}>6th Octave</option>
-          <option value={6}>7th Octave</option>
-        </select>
+
+      <div className="display-container">
+        <p className="display-title">Display</p>
+        <div className="display-option-container">
+          <div
+            className={`displayOption ${
+              noteDisplay === "notes" && "active-display-option"
+            }`}
+            onClick={() => handleDisplayPick(1)}
+          >
+            <div className="active-circle"></div>
+            Notes
+          </div>
+          <div
+            className={`displayOption ${
+              noteDisplay === "keys" && "active-display-option"
+            } desktop-only`}
+            onClick={() => handleDisplayPick(2)}
+          >
+            <div className="active-circle"></div>
+            Keys
+          </div>
+        </div>
       </div>
     </div>
   );
