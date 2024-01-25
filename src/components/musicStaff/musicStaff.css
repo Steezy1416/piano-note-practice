@@ -1,11 +1,15 @@
+.app-container {
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4rem;
+}
+
 .musicStaff-container {
   padding: 0 1rem;
   margin: 0 auto;
   max-width: 600px;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   width: 100%;
 }
 
@@ -33,7 +37,8 @@
   position: absolute;
   background-color: black;
   bottom: 0;
-  left: 48%;
+  left: 50%;
+  transform: translateX(-0.5rem);
 }
 
 .whole-note {
@@ -44,7 +49,7 @@
   display: grid;
   place-items: center;
   position: absolute;
-  top: -10%;
+  top: 90%;
   left: 50%;
 }
 

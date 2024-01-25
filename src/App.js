@@ -11,7 +11,10 @@ const router = createBrowserRouter([
   },
   {
     path: "piano",
-    element: <MusicStaff/>,
+    element: <div className="app-container">
+      <MusicStaff/>
+      <PianoContainer/>
+    </div>,
   },
 ]);
 
