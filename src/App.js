@@ -1,6 +1,5 @@
 import LandingPage from "./Pages/LandingPage";
-import PianoContainer from "./components/PianoContainer/PianoContainer";
-import MusicStaff from "./components/musicStaff/MusicStaff";
+import PianoStaffContainer from "./components/PianoStaffContainer";
 import "./style.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
@@ -11,10 +10,7 @@ const router = createBrowserRouter([
   },
   {
     path: "piano",
-    element: <div className="app-container">
-      <MusicStaff/>
-      <PianoContainer/>
-    </div>,
+    element: <PianoStaffContainer/>,
   },
 ]);
 

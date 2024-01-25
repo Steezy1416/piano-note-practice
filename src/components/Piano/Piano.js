@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import PianoNote from "./PianoNote";
 import "./treblePiano.css";
+import noteQuestions from "../musicStaff/noteQuestions";
 
 const Piano = ({
   noteDisplay,
@@ -8,6 +9,9 @@ const Piano = ({
   setPianoHasFocus,
   pianoHasFocus,
   isSustainOn,
+  setCurrentQuestionIndex,
+  currentOctave,
+  currentQuestionIndex
 }) => {
   const pianoRef = useRef(null);
   const audioBufferRefs = useRef([]);
@@ -64,6 +68,26 @@ const Piano = ({
     }
   };
 
+  let questionNote = noteQuestions[currentQuestionIndex].note
+
+  let questionOctave = noteQuestions[currentQuestionIndex].octave
+
+  const handleQuestion = (noteIndex) => {
+    if(allNotes[noteIndex].name === questionNote && currentOctave === questionOctave){
+      console.log("correct")
+      setCurrentQuestionIndex(currentQuestionIndex + 1)
+    }
+    else if(allNotes[noteIndex].name === questionNote && currentOctave !== questionOctave){
+      console.log("wrong octave")
+    }
+    else if(allNotes[noteIndex].name !== questionNote && currentOctave === questionOctave){
+      console.log("wrong note")
+    }
+    else {
+      console.log("wrong note and wrong octave")
+    }
+  }
+
   const playNote = (noteIndex, e) => {
     //stops note from playing over and over again if key is help down wihtout moving
     if (e.repeat) return;
@@ -105,6 +129,9 @@ const Piano = ({
     currentNote.audioBuffer = noteSource;
     currentNote.gain = gainNode;
     updateKeys(noteIndex, true);
+
+
+    handleQuestion(noteIndex)
   };
 
   const stopNote = (noteIndex) => {

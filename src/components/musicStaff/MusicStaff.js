@@ -1,7 +1,8 @@
 import "./musicStaff.css";
 import trebelClef from "../../images/treble-clef-svgrepo-com.svg";
+import noteQuestions from "./noteQuestions";
 
-const MusicStaff = () => {
+const MusicStaff = ({ currentQuestionIndex }) => {
   return (
     <div className="musicStaff-container">
       <div className="music-staff">
@@ -10,7 +11,10 @@ const MusicStaff = () => {
         <div className="music-box"></div>
         <div className="music-box"></div>
         <div className="music-box middle-c"></div>
-        <div className="whole-note">
+        <div
+          style={{ top: `${noteQuestions[currentQuestionIndex].position}` }}
+          className="whole-note"
+        >
           <div className="inner-whole-note"></div>
         </div>
         <img className="music-staff-treble-clef" alt="" src={trebelClef}></img>
