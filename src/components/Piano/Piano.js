@@ -30,6 +30,7 @@ const Piano = ({
   const sharpNotes = notesWithSharps.map((note) => note.sharp);
   let allNotes = [...clefNotes, ...sharpNotes];
   allNotes.sort((a, b) => a.noteIndex - b.noteIndex);
+  console.log(allNotes)
 
   //loads all sounds as buffers in an array so they are ready to be played
   useEffect(() => {
@@ -73,7 +74,16 @@ const Piano = ({
   let questionOctave = noteQuestions[currentQuestionIndex].octave
 
   const handleQuestion = (noteIndex) => {
-    if(allNotes[noteIndex].name === questionNote && currentOctave === questionOctave){
+
+    console.log(currentOctave + 1 === questionOctave)
+
+    if(currentOctave + 1 === questionOctave && allNotes[allNotes.length - 1] === allNotes[noteIndex] && allNotes[noteIndex].name === questionNote){
+      console.log("correct")
+      setCurrentQuestionIndex(currentQuestionIndex + 1)
+      return
+    }
+
+    if(allNotes[noteIndex].name === questionNote && currentOctave === questionOctave && allNotes[allNotes.length -1] !== allNotes[noteIndex]){
       console.log("correct")
       setCurrentQuestionIndex(currentQuestionIndex + 1)
     }
