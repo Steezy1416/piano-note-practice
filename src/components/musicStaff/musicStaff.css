@@ -21,7 +21,7 @@
   border-top: 1px solid black;
   border-left: 1px solid black;
   border-right: 1px solid black;
-  padding: 1rem;
+  padding: .8rem;
 }
 
 .middle-c {
@@ -33,7 +33,7 @@
 .middle-c::after {
   content: "";
   height: 1px;
-  width: 4rem;
+  width: 3.5rem;
   position: absolute;
   background-color: black;
   bottom: 0;
@@ -42,8 +42,8 @@
 }
 
 .whole-note {
-  width: 3rem;
-  height: calc(2rem + 2px);
+  width: 2.5rem;
+  height: calc(1.6rem + 2px);
   background-color: black;
   border-radius: 50%;
   display: grid;
@@ -53,8 +53,8 @@
 }
 
 .inner-whole-note {
-  width: 1.8rem;
-  height: 1rem;
+  width: 1.5rem;
+  height: .9rem;
   background-color: white;
   border-radius: 50%;
   transform: rotate(60deg);
