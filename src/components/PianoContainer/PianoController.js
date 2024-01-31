@@ -8,6 +8,7 @@ const PianoController = ({
   setPianoHasFocus,
   isSustainOn,
   setIsSustainOn,
+  setCurrentOctave
 }) => {
   const handleDisplayPick = (option) => {
     switch (option) {
@@ -42,6 +43,7 @@ const PianoController = ({
   const handleOctaveChange = (index) => {
     setCurrentOctaveIndex(index);
     setCurrentClefNotes(octaveNotes[index]);
+    setCurrentOctave(index + 1)
     setPianoHasFocus(true);
   };
 
