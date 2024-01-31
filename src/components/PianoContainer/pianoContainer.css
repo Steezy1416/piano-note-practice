@@ -133,6 +133,11 @@
   box-shadow: 0 0 16px 5px #89fc00;
 }
 
+*:has(.wrong-octave) .active-octave-btn {
+  background: initial;
+  background-color: red;
+}
+
 .sustain-btn:hover,
 .displayOption:hover {
   background-color: whitesmoke;

@@ -68,10 +68,9 @@ const noteQuestions = [
   {
     id: 12,
     note: "f",
-    position: "-10",
+    position: "-10%",
     octave: 4,
   },
 ];
 
-
-export default noteQuestions
+export default noteQuestions;

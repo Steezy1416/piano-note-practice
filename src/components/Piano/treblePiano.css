@@ -82,6 +82,14 @@
   transform: translateX(65%);
 }
 
+.correct-key {
+  background-color: #70e000;
+}
+
+.wrong-key {
+  background-color: red;
+}
+
 @media (max-width: 31.25rem) {
   .treble-piano {
     grid-template-rows: 275px;

@@ -11,7 +11,7 @@ const Piano = ({
   isSustainOn,
   setCurrentQuestionIndex,
   currentOctave,
-  currentQuestionIndex
+  currentQuestionIndex,
 }) => {
   const pianoRef = useRef(null);
   const audioBufferRefs = useRef([]);
@@ -30,7 +30,6 @@ const Piano = ({
   const sharpNotes = notesWithSharps.map((note) => note.sharp);
   let allNotes = [...clefNotes, ...sharpNotes];
   allNotes.sort((a, b) => a.noteIndex - b.noteIndex);
-  console.log(allNotes)
 
   //loads all sounds as buffers in an array so they are ready to be played
   useEffect(() => {
@@ -69,34 +68,71 @@ const Piano = ({
     }
   };
 
-  let questionNote = noteQuestions[currentQuestionIndex].note
+  const updateKeyAnswerState = (noteIndex, isCorrect, isWrongOctave = false) => {
+    let classState = isCorrect ? ["correct-key"] : ["wrong-key"];
 
-  let questionOctave = noteQuestions[currentQuestionIndex].octave
+    isWrongOctave ? classState = [classState, "wrong-octave"] : classState = [classState]
+
+    pianoNoteRefs.current[noteIndex].classList.add(...classState);
+  };
+
+  const stopKeyAnswerState = (noteIndex) => {
+    pianoNoteRefs.current[noteIndex].classList.remove(
+      "correct-key",
+      "wrong-key",
+      "wrong-octave"
+    );
+  };
+
+  let questionNote = noteQuestions[currentQuestionIndex].note;
+
+  let questionOctave = noteQuestions[currentQuestionIndex].octave;
 
   const handleQuestion = (noteIndex) => {
+    console.log(currentOctave + 1 === questionOctave);
 
-    console.log(currentOctave + 1 === questionOctave)
+    if (
+      currentOctave + 1 === questionOctave &&
+      allNotes[allNotes.length - 1] === allNotes[noteIndex] &&
+      allNotes[noteIndex].name === questionNote
+    ) {
+      console.log("correct");
+      setCurrentQuestionIndex(currentQuestionIndex + 1);
+      updateKeyAnswerState(noteIndex, true)
+      return;
+    }
 
-    if(currentOctave + 1 === questionOctave && allNotes[allNotes.length - 1] === allNotes[noteIndex] && allNotes[noteIndex].name === questionNote){
-      console.log("correct")
-      setCurrentQuestionIndex(currentQuestionIndex + 1)
+    if(currentOctave + 1 !== questionOctave && allNotes[noteIndex] === allNotes[allNotes.length -1]){
+      updateKeyAnswerState(noteIndex, false, true)
       return
     }
 
-    if(allNotes[noteIndex].name === questionNote && currentOctave === questionOctave && allNotes[allNotes.length -1] !== allNotes[noteIndex]){
-      console.log("correct")
-      setCurrentQuestionIndex(currentQuestionIndex + 1)
+    if (
+      allNotes[noteIndex].name === questionNote &&
+      currentOctave === questionOctave &&
+      allNotes[allNotes.length - 1] !== allNotes[noteIndex]
+    ) {
+      console.log("correct");
+      setCurrentQuestionIndex(currentQuestionIndex + 1);
+      updateKeyAnswerState(noteIndex, true)
+    } else if (
+      allNotes[noteIndex].name === questionNote &&
+      currentOctave !== questionOctave
+    ) {
+      console.log("wrong octave");
+      updateKeyAnswerState(noteIndex, false, true)
     }
-    else if(allNotes[noteIndex].name === questionNote && currentOctave !== questionOctave){
-      console.log("wrong octave")
+     else if (
+      allNotes[noteIndex].name !== questionNote &&
+      currentOctave === questionOctave
+    ) {
+      console.log("wrong note");
+      updateKeyAnswerState(noteIndex, false)
+    } else {
+      console.log("wrong note and wrong octave");
+      updateKeyAnswerState(noteIndex, false, true)
     }
-    else if(allNotes[noteIndex].name !== questionNote && currentOctave === questionOctave){
-      console.log("wrong note")
-    }
-    else {
-      console.log("wrong note and wrong octave")
-    }
-  }
+  };
 
   const playNote = (noteIndex, e) => {
     //stops note from playing over and over again if key is help down wihtout moving
@@ -140,8 +176,7 @@ const Piano = ({
     currentNote.gain = gainNode;
     updateKeys(noteIndex, true);
 
-
-    handleQuestion(noteIndex)
+    handleQuestion(noteIndex);
   };
 
   const stopNote = (noteIndex) => {
@@ -166,6 +201,7 @@ const Piano = ({
     noteSource.audioBuffer.currentTime = 0;
     noteSource.scheduledToStop = true;
     updateKeys(noteIndex, false);
+    stopKeyAnswerState(noteIndex)
   };
 
   const handleKeyDown = (e) => {
