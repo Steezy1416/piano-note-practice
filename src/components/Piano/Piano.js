@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import PianoNote from "./PianoNote";
 import "./treblePiano.css";
-import noteQuestions from "../musicStaff/noteQuestions";
+import {trebleClefQuestions, bassClefQuestions} from "../musicStaff/noteQuestions";
 
 const Piano = ({
   noteDisplay,
@@ -84,9 +84,9 @@ const Piano = ({
     );
   };
 
-  let questionNote = noteQuestions[currentQuestionIndex].note;
+  let questionNote = trebleClefQuestions[currentQuestionIndex].note;
 
-  let questionOctave = noteQuestions[currentQuestionIndex].octave;
+  let questionOctave = trebleClefQuestions[currentQuestionIndex].octave;
 
   const handleQuestion = (noteIndex) => {
     console.log(currentOctave + 1 === questionOctave);

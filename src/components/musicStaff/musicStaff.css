@@ -15,22 +15,41 @@
 
 .music-staff {
   position: relative;
+  display: flex;
+  flex-direction: column;
+  background-color: black;
 }
 
 .music-box {
+  background-color: white;
   border-top: 1px solid black;
   border-left: 1px solid black;
   border-right: 1px solid black;
-  padding: .8rem;
+  height: 25px;
 }
 
-.middle-c {
-  border-left: none;
-  border-right: none;
+.top-ledger-line {
+  border-top: transparent;
+}
+
+.top-ledger-line, .bottom-ledger-line {
   position: relative;
+  border-left: 1px solid transparent;
+  border-right: 1px solid transparent;
 }
 
-.middle-c::after {
+.top-ledger-line::after {
+  content: "";
+  height: 1px;
+  width: 3.5rem;
+  position: absolute;
+  background-color: black;
+  top: 0;
+  left: 50%;
+  transform: translateX(-0.5rem);
+}
+
+.bottom-ledger-line::after {
   content: "";
   height: 1px;
   width: 3.5rem;
@@ -43,7 +62,7 @@
 
 .whole-note {
   width: 2.5rem;
-  height: calc(1.6rem + 2px);
+  height: calc(25px);
   background-color: black;
   border-radius: 50%;
   display: grid;
@@ -63,9 +82,17 @@
 .music-staff-treble-clef {
   position: absolute;
   top: 50%;
-  transform: translateY(-55%);
+  transform: translateY(-50%);
   height: 120%;
   width: 5.5rem;
   object-fit: cover;
   left: 0;
+  display: none;
+}
+
+.music-staff-bass-clef {
+  position: absolute;
+  top: 17%;
+  left: 10px;
+  width: 4.5rem;
 }

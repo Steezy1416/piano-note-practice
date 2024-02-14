@@ -10,7 +10,7 @@ const PianoContainer = ({currentQuestionIndex, setCurrentQuestionIndex}) => {
   const [currentClefNotes, setCurrentClefNotes] = useState(octaveNotes[2]);
   const [pianoHasFocus, setPianoHasFocus] = useState(true);
   const [isSustainOn, setIsSustainOn] = useState(false);
-  const [currentOctave, setCurrentOctave] = useState(3)
+  const [currentOctave, setCurrentOctave] = useState(4)
 
   return (
     <div className="piano-container">
