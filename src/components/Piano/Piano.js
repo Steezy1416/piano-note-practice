@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import PianoNote from "./PianoNote";
 import "./treblePiano.css";
-import {trebleClefQuestions, bassClefQuestions} from "../musicStaff/noteQuestions";
+import {trebleClefQuestions} from "../musicStaff/noteQuestions";
 
 const Piano = ({
   noteDisplay,
