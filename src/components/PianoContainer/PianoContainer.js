@@ -7,7 +7,7 @@ import octaveNotes from "../Piano/octaveNotes";
 
 const PianoContainer = ({currentQuestionIndex, setCurrentQuestionIndex}) => {
   const [noteDisplay, setNoteDisplay] = useState("notes");
-  const [currentClefNotes, setCurrentClefNotes] = useState(octaveNotes[2]);
+  const [currentClefNotes, setCurrentClefNotes] = useState(octaveNotes[3]);
   const [pianoHasFocus, setPianoHasFocus] = useState(true);
   const [isSustainOn, setIsSustainOn] = useState(false);
   const [currentOctave, setCurrentOctave] = useState(4)
