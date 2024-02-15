@@ -37,7 +37,7 @@ const PianoController = ({
       }
     }
   };
-  const [currentOctaveIndex, setCurrentOctaveIndex] = useState(2);
+  const [currentOctaveIndex, setCurrentOctaveIndex] = useState(3);
   const octaveOptions = [1, 2, 3, 4, 5, 6, 7];
 
   const handleOctaveChange = (index) => {
