@@ -1,7 +1,7 @@
 import "./musicStaff.css";
 import trebelClef from "../../images/treble-clef-svgrepo-com.svg";
 import bassClef from "../../images/bass-clef-svgrepo-com.svg"
-import {trebleClefQuestions, bassClefQuestions} from "./noteQuestions";
+import {trebleClefQuestions} from "./noteQuestions";
 
 const MusicStaff = ({ currentQuestionIndex }) => {
   return (
