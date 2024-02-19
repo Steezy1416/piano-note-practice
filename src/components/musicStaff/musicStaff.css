@@ -38,12 +38,15 @@
   border-right: 1px solid transparent;
 }
 
+.last-bottom-ledger-line{
+  border-top: transparent;
+}
+
 .top-ledger-line::after {
   content: "";
-  height: 1px;
+  border-top: 1px solid black;
   width: 3.5rem;
   position: absolute;
-  background-color: black;
   top: 0;
   left: 50%;
   transform: translateX(-0.5rem);
@@ -51,10 +54,9 @@
 
 .bottom-ledger-line::after {
   content: "";
-  height: 1px;
+  border-top: 1px solid black;
   width: 3.5rem;
   position: absolute;
-  background-color: black;
   bottom: 0;
   left: 50%;
   transform: translateX(-0.5rem);
@@ -81,18 +83,18 @@
 
 .music-staff-treble-clef {
   position: absolute;
-  top: 50%;
+  top: 60%;
   transform: translateY(-50%);
-  height: 120%;
+  height: 64%;
   width: 5.5rem;
   object-fit: cover;
   left: 0;
-  display: none;
 }
 
 .music-staff-bass-clef {
   position: absolute;
-  top: 17%;
+  top: 40%;
   left: 10px;
   width: 4.5rem;
+  display: none;
 }
