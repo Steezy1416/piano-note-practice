@@ -1,7 +1,6 @@
 import { useEffect, useRef } from "react";
 import PianoNote from "./PianoNote";
 import "./treblePiano.css";
-import {trebleClefQuestions, bassClefQuestions} from "../musicStaff/noteQuestions";
 
 const Piano = ({
   noteDisplay,
@@ -12,6 +11,7 @@ const Piano = ({
   setCurrentQuestionIndex,
   currentOctave,
   currentQuestionIndex,
+  currentQuestions,
 }) => {
   const pianoRef = useRef(null);
   const audioBufferRefs = useRef([]);
@@ -68,10 +68,16 @@ const Piano = ({
     }
   };
 
-  const updateKeyAnswerState = (noteIndex, isCorrect, isWrongOctave = false) => {
+  const updateKeyAnswerState = (
+    noteIndex,
+    isCorrect,
+    isWrongOctave = false
+  ) => {
     let classState = isCorrect ? ["correct-key"] : ["wrong-key"];
 
-    isWrongOctave ? classState = [classState, "wrong-octave"] : classState = [classState]
+    isWrongOctave
+      ? (classState = [classState, "wrong-octave"])
+      : (classState = [classState]);
 
     pianoNoteRefs.current[noteIndex].classList.add(...classState);
   };
@@ -84,9 +90,9 @@ const Piano = ({
     );
   };
 
-  let questionNote = bassClefQuestions[currentQuestionIndex].note;
+  let questionNote = currentQuestions[currentQuestionIndex].note;
 
-  let questionOctave = bassClefQuestions[currentQuestionIndex].octave;
+  let questionOctave = currentQuestions[currentQuestionIndex].octave;
 
   const handleQuestion = (noteIndex) => {
     console.log(currentOctave + 1 === questionOctave);
@@ -98,13 +104,16 @@ const Piano = ({
     ) {
       console.log("correct");
       setCurrentQuestionIndex(currentQuestionIndex + 1);
-      updateKeyAnswerState(noteIndex, true)
+      updateKeyAnswerState(noteIndex, true);
       return;
     }
 
-    if(currentOctave + 1 !== questionOctave && allNotes[noteIndex] === allNotes[allNotes.length -1]){
-      updateKeyAnswerState(noteIndex, false, true)
-      return
+    if (
+      currentOctave + 1 !== questionOctave &&
+      allNotes[noteIndex] === allNotes[allNotes.length - 1]
+    ) {
+      updateKeyAnswerState(noteIndex, false, true);
+      return;
     }
 
     if (
@@ -114,23 +123,22 @@ const Piano = ({
     ) {
       console.log("correct");
       setCurrentQuestionIndex(currentQuestionIndex + 1);
-      updateKeyAnswerState(noteIndex, true)
+      updateKeyAnswerState(noteIndex, true);
     } else if (
       allNotes[noteIndex].name === questionNote &&
       currentOctave !== questionOctave
     ) {
       console.log("wrong octave");
-      updateKeyAnswerState(noteIndex, false, true)
-    }
-     else if (
+      updateKeyAnswerState(noteIndex, false, true);
+    } else if (
       allNotes[noteIndex].name !== questionNote &&
       currentOctave === questionOctave
     ) {
       console.log("wrong note");
-      updateKeyAnswerState(noteIndex, false)
+      updateKeyAnswerState(noteIndex, false);
     } else {
       console.log("wrong note and wrong octave");
-      updateKeyAnswerState(noteIndex, false, true)
+      updateKeyAnswerState(noteIndex, false, true);
     }
   };
 
@@ -201,7 +209,7 @@ const Piano = ({
     noteSource.audioBuffer.currentTime = 0;
     noteSource.scheduledToStop = true;
     updateKeys(noteIndex, false);
-    stopKeyAnswerState(noteIndex)
+    stopKeyAnswerState(noteIndex);
   };
 
   const handleKeyDown = (e) => {

@@ -5,12 +5,16 @@ import PianoController from "./PianoController";
 import "./pianoContainer.css";
 import octaveNotes from "../Piano/octaveNotes";
 
-const PianoContainer = ({currentQuestionIndex, setCurrentQuestionIndex}) => {
+const PianoContainer = ({
+  currentQuestionIndex,
+  setCurrentQuestionIndex,
+  currentQuestions,
+}) => {
   const [noteDisplay, setNoteDisplay] = useState("notes");
   const [currentClefNotes, setCurrentClefNotes] = useState(octaveNotes[3]);
   const [pianoHasFocus, setPianoHasFocus] = useState(true);
   const [isSustainOn, setIsSustainOn] = useState(false);
-  const [currentOctave, setCurrentOctave] = useState(4)
+  const [currentOctave, setCurrentOctave] = useState(4);
 
   return (
     <div className="piano-container">
@@ -33,6 +37,7 @@ const PianoContainer = ({currentQuestionIndex, setCurrentQuestionIndex}) => {
           setCurrentQuestionIndex={setCurrentQuestionIndex}
           currentOctave={currentOctave}
           currentQuestionIndex={currentQuestionIndex}
+          currentQuestions={currentQuestions}
         />
       </div>
     </div>

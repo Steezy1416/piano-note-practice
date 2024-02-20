@@ -32,13 +32,14 @@
   border-top: transparent;
 }
 
-.top-ledger-line, .bottom-ledger-line {
+.top-ledger-line,
+.bottom-ledger-line {
   position: relative;
   border-left: 1px solid transparent;
   border-right: 1px solid transparent;
 }
 
-.last-bottom-ledger-line{
+.last-bottom-ledger-line {
   border-top: transparent;
 }
 
@@ -75,7 +76,7 @@
 
 .inner-whole-note {
   width: 1.5rem;
-  height: .9rem;
+  height: 0.9rem;
   background-color: white;
   border-radius: 50%;
   transform: rotate(60deg);
@@ -96,5 +97,4 @@
   top: 40%;
   left: 10px;
   width: 4.5rem;
-  display: none;
 }
