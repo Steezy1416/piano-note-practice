@@ -279,3 +279,5 @@ export const bassClefQuestions = [
     octave: 5,
   },
 ];
+
+export const allClefQuestions = [...trebleClefQuestions, ...bassClefQuestions]

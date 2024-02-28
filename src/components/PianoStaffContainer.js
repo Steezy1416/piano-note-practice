@@ -1,17 +1,18 @@
 import { useState } from "react";
 import MusicStaff from "./musicStaff/MusicStaff";
 import PianoContainer from "./PianoContainer/PianoContainer";
-import {
-  bassClefQuestions,
-  trebleClefQuestions,
-} from "./musicStaff/noteQuestions";
+import { trebleClefQuestions } from "./musicStaff/noteQuestions";
+import Header from "./header/Header";
 
 const PianoStaffContainer = () => {
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(Math.floor(Math.random() * 23));
   const [currentQuestions, setCurrentQuestions] = useState(trebleClefQuestions);
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(
+    Math.floor(Math.random() * currentQuestions.length)
+  );
 
   return (
     <div className="app-container">
+      <Header setCurrentQuestions={setCurrentQuestions}></Header>
       <MusicStaff
         currentQuestionIndex={currentQuestionIndex}
         currentQuestions={currentQuestions}

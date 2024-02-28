@@ -103,7 +103,7 @@ const Piano = ({
       allNotes[noteIndex].name === questionNote
     ) {
       console.log("correct");
-      setCurrentQuestionIndex(Math.floor(Math.random() * 23));
+      setCurrentQuestionIndex(Math.floor(Math.random() * currentQuestions.length));
       updateKeyAnswerState(noteIndex, true);
       return;
     }
@@ -122,7 +122,7 @@ const Piano = ({
       allNotes[allNotes.length - 1] !== allNotes[noteIndex]
     ) {
       console.log("correct");
-      setCurrentQuestionIndex(Math.floor(Math.random() * 23));
+      setCurrentQuestionIndex(Math.floor(Math.random() * currentQuestions.length));
       updateKeyAnswerState(noteIndex, true);
     } else if (
       allNotes[noteIndex].name === questionNote &&

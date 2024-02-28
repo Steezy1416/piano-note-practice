@@ -3,7 +3,7 @@
   display: grid;
   grid-template-rows: 30% 60%;
   gap: 10%;
-  padding: 1.5rem 0;
+  padding: 10% 0 1.5rem;
 }
 
 .musicStaff-container {
@@ -95,6 +95,14 @@
 }
 
 @media (max-height: 500px) {
+  .app-container {
+    height: 100dvh;
+    display: grid;
+    grid-template-rows: 30% 60%;
+    gap: 10%;
+    padding: 1.5rem 0;
+  }
+
   .music-staff-treble-clef {
     top: 55%;
     height: 100%;
