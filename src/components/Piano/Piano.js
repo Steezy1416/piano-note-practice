@@ -12,6 +12,7 @@ const Piano = ({
   currentOctave,
   currentQuestionIndex,
   currentQuestions,
+  minMax,
 }) => {
   const pianoRef = useRef(null);
   const audioBufferRefs = useRef([]);
@@ -97,13 +98,15 @@ const Piano = ({
   const handleQuestion = (noteIndex) => {
     console.log(currentOctave + 1 === questionOctave);
 
+    const { min, max } = minMax;
+
     if (
       currentOctave + 1 === questionOctave &&
       allNotes[allNotes.length - 1] === allNotes[noteIndex] &&
       allNotes[noteIndex].name === questionNote
     ) {
       console.log("correct");
-      setCurrentQuestionIndex(Math.floor(Math.random() * currentQuestions.length));
+      setCurrentQuestionIndex(Math.floor(Math.random() * (max - min) + min));
       updateKeyAnswerState(noteIndex, true);
       return;
     }
@@ -122,7 +125,7 @@ const Piano = ({
       allNotes[allNotes.length - 1] !== allNotes[noteIndex]
     ) {
       console.log("correct");
-      setCurrentQuestionIndex(Math.floor(Math.random() * currentQuestions.length));
+      setCurrentQuestionIndex(Math.floor(Math.random() * (max - min) + min));
       updateKeyAnswerState(noteIndex, true);
     } else if (
       allNotes[noteIndex].name === questionNote &&

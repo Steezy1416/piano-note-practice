@@ -9,10 +9,18 @@ const PianoStaffContainer = () => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(
     Math.floor(Math.random() * currentQuestions.length)
   );
+  const [minMax, setMinMax] = useState({
+    min: 0,
+    max: 23,
+  });
 
   return (
     <div className="app-container">
-      <Header setCurrentQuestions={setCurrentQuestions}></Header>
+      <Header
+        setCurrentQuestions={setCurrentQuestions}
+        minMax={minMax}
+        setMinMax={setMinMax}
+      ></Header>
       <MusicStaff
         currentQuestionIndex={currentQuestionIndex}
         currentQuestions={currentQuestions}
@@ -21,6 +29,7 @@ const PianoStaffContainer = () => {
         currentQuestions={currentQuestions}
         currentQuestionIndex={currentQuestionIndex}
         setCurrentQuestionIndex={setCurrentQuestionIndex}
+        minMax={minMax}
       />
     </div>
   );

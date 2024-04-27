@@ -1,0 +1,77 @@
+.range-selector-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.range-selector-music-staff {
+  height: 100%;
+}
+
+.range-selector-top-ledger-line {
+  position: relative;
+  border-left: 1px solid transparent;
+  border-right: 1px solid transparent;
+  border-top: transparent;
+}
+
+.range-selector-top-ledger-line::before {
+  content: "";
+  border-top: 1px solid black;
+  width: 3.5rem;
+  position: absolute;
+  top: 0;
+  left: 0%;
+}
+
+.range-selector-top-ledger-line::after {
+  content: "";
+  border-top: 1px solid black;
+  width: 3.5rem;
+  position: absolute;
+  top: 0;
+  right: 0%;
+}
+
+.range-selector-bottom-ledger-line {
+  position: relative;
+  border-left: 1px solid transparent;
+  border-right: 1px solid transparent;
+}
+
+.range-selector-bottom-ledger-line::before {
+  content: "";
+  border-top: 1px solid black;
+  width: 3.5rem;
+  position: absolute;
+  bottom: 0;
+  left: 0%;
+}
+
+.range-selector-bottom-ledger-line::after {
+  content: "";
+  border-top: 1px solid black;
+  width: 3.5rem;
+  position: absolute;
+  bottom: 0;
+  right: 0%;
+}
+
+.range-selector-whole-note {
+  width: 2.5rem;
+  height: calc(100% / 10);
+  background-color: black;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  position: absolute;
+}
+
+.left-whole-note {
+  left: 0.5rem;
+}
+
+.right-whole-note {
+  right: 0.5rem;
+}

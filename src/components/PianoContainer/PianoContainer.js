@@ -9,6 +9,7 @@ const PianoContainer = ({
   currentQuestionIndex,
   setCurrentQuestionIndex,
   currentQuestions,
+  minMax,
 }) => {
   const [noteDisplay, setNoteDisplay] = useState("notes");
   const [currentClefNotes, setCurrentClefNotes] = useState(octaveNotes[3]);
@@ -38,6 +39,7 @@ const PianoContainer = ({
           currentOctave={currentOctave}
           currentQuestionIndex={currentQuestionIndex}
           currentQuestions={currentQuestions}
+          minMax={minMax}
         />
       </div>
     </div>

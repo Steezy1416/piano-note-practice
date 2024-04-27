@@ -1,12 +1,14 @@
 import { useState } from "react";
 import "./header.css";
+import "./rangeSelector.css"
 import {
   allClefQuestions,
   bassClefQuestions,
   trebleClefQuestions,
 } from "../musicStaff/noteQuestions";
+import RangeSelector from "./RangeSelector";
 
-const Header = ({ setCurrentQuestions }) => {
+const Header = ({ setCurrentQuestions, minMax, setMinMax }) => {
   const [isModalActive, setIsModalActive] = useState(false);
 
   const [onClefRange, setOnClefRange] = useState(false);
@@ -25,8 +27,8 @@ const Header = ({ setCurrentQuestions }) => {
         <div className={isModalActive ? "setting-max-width" : "hide"}>
           <div className="settings-modal">
             <div className="settings-options-container">
-              <div>Clef</div>
-              <div>Range</div>
+              <div onClick={() => setOnClefRange(false)}>Clef</div>
+              <div onClick={() => setOnClefRange(true)}>Range</div>
               <i
                 onClick={() => setIsModalActive(false)}
                 className="fa-solid fa-xmark close-icon"
@@ -34,7 +36,7 @@ const Header = ({ setCurrentQuestions }) => {
             </div>
             <div className="content-box">
               {onClefRange ? (
-                <ClefRangeSelector />
+                <RangeSelector minMax={minMax} setMinMax={setMinMax} />
               ) : (
                 <ClefSelector setCurrentQuestions={setCurrentQuestions} />
               )}
@@ -64,10 +66,6 @@ const ClefSelector = ({ setCurrentQuestions }) => {
       </button>
     </>
   );
-};
-
-const ClefRangeSelector = () => {
-  return <>Test</>;
 };
 
 export default Header;
