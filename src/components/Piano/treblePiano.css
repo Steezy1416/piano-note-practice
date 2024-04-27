@@ -1,11 +1,18 @@
+.treble-piano-content {
+  height: 100%;
+  flex: 1;
+  display: flex;
+}
+
 .treble-piano {
   display: grid;
   grid-template-columns: repeat(8, 1fr);
-  grid-template-rows: 350px;
   position: relative;
   gap: 2px;
   background-color: gray;
   border-radius: 0 0 5px 5px;
+  flex: 1;
+  max-height: 350px;
 }
 
 :focus {
@@ -51,7 +58,7 @@
   color: white;
   border: none;
   position: absolute;
-  height: 250px;
+  height: 75%;
   width: 40px;
   border-radius: 0 0 5px 5px;
   box-shadow: -6px -6px 5px 0px rgba(130, 128, 128, 0.75) inset;
@@ -92,11 +99,10 @@
 
 @media (max-width: 31.25rem) {
   .treble-piano {
-    grid-template-rows: 275px;
+    max-height: 275px;
   }
 
   .black-key {
     width: 35px;
-    height: 215px;
   }
 }
