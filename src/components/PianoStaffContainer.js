@@ -20,6 +20,7 @@ const PianoStaffContainer = () => {
         setCurrentQuestions={setCurrentQuestions}
         minMax={minMax}
         setMinMax={setMinMax}
+        setCurrentQuestionIndex={setCurrentQuestionIndex}
       ></Header>
       <MusicStaff
         currentQuestionIndex={currentQuestionIndex}

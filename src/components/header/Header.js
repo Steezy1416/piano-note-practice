@@ -1,6 +1,6 @@
 import { useState } from "react";
 import "./header.css";
-import "./rangeSelector.css"
+import "./rangeSelector.css";
 import {
   allClefQuestions,
   bassClefQuestions,
@@ -8,7 +8,12 @@ import {
 } from "../musicStaff/noteQuestions";
 import RangeSelector from "./RangeSelector";
 
-const Header = ({ setCurrentQuestions, minMax, setMinMax }) => {
+const Header = ({
+  setCurrentQuestions,
+  minMax,
+  setMinMax,
+  setCurrentQuestionIndex,
+}) => {
   const [isModalActive, setIsModalActive] = useState(false);
 
   const [onClefRange, setOnClefRange] = useState(false);
@@ -36,9 +41,17 @@ const Header = ({ setCurrentQuestions, minMax, setMinMax }) => {
             </div>
             <div className="content-box">
               {onClefRange ? (
-                <RangeSelector minMax={minMax} setMinMax={setMinMax} />
+                <RangeSelector
+                  setCurrentQuestionIndex={setCurrentQuestionIndex}
+                  minMax={minMax}
+                  setMinMax={setMinMax}
+                />
               ) : (
-                <ClefSelector setCurrentQuestions={setCurrentQuestions} />
+                <ClefSelector
+                  setCurrentQuestionIndex={setCurrentQuestionIndex}
+                  minMax={minMax}
+                  setCurrentQuestions={setCurrentQuestions}
+                />
               )}
             </div>
           </div>
@@ -48,9 +61,16 @@ const Header = ({ setCurrentQuestions, minMax, setMinMax }) => {
   );
 };
 
-const ClefSelector = ({ setCurrentQuestions }) => {
+const ClefSelector = ({
+  setCurrentQuestionIndex,
+  minMax,
+  setCurrentQuestions,
+}) => {
+  const { min, max } = minMax;
+
   const handleQuestionChange = (questions) => {
     setCurrentQuestions(questions);
+    setCurrentQuestionIndex(Math.floor(Math.random() * (max - min) + min));
   };
 
   return (

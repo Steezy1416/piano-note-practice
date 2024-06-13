@@ -1,8 +1,10 @@
 import { useState } from "react";
 
-const RangeSelector = ({ minMax, setMinMax }) => {
+const RangeSelector = ({ setCurrentQuestionIndex, minMax, setMinMax }) => {
   const [leftWholeNotePosition, setLeftWholeNotePosition] = useState(100);
   const [rightWholeNotePosition, setRightWholeNotePosition] = useState(-10);
+
+  const { min, max } = minMax;
 
   console.log(minMax);
 
@@ -20,6 +22,9 @@ const RangeSelector = ({ minMax, setMinMax }) => {
         ...minMax,
         min: minMax.min + 1,
       });
+      setCurrentQuestionIndex(
+        Math.floor(Math.random() * (max - (minMax.min + 1)) + minMax.min + 1)
+      );
     }
   };
 
@@ -34,6 +39,9 @@ const RangeSelector = ({ minMax, setMinMax }) => {
         ...minMax,
         min: minMax.min - 1,
       });
+      setCurrentQuestionIndex(
+        Math.floor(Math.random() * (max - (minMax.min - 1)) + (minMax.min - 1))
+      );
     }
   };
 
@@ -48,6 +56,9 @@ const RangeSelector = ({ minMax, setMinMax }) => {
         ...minMax,
         max: minMax.max + 1,
       });
+      setCurrentQuestionIndex(
+        Math.floor(Math.random() * (minMax.max + 1 - min) + min)
+      );
     }
   };
 
@@ -65,6 +76,9 @@ const RangeSelector = ({ minMax, setMinMax }) => {
         ...minMax,
         max: minMax.max - 1,
       });
+      setCurrentQuestionIndex(
+        Math.floor(Math.random() * (minMax.max - 1 - min) + min)
+      );
     }
   };
 

@@ -7,13 +7,14 @@
 
 .range-selector-music-staff {
   height: 100%;
+  -webkit-backface-visibility: hidden;
 }
 
 .range-selector-top-ledger-line {
   position: relative;
   border-left: 1px solid transparent;
   border-right: 1px solid transparent;
-  border-top: transparent;
+  border-top: none;
 }
 
 .range-selector-top-ledger-line::before {
@@ -38,6 +39,7 @@
   position: relative;
   border-left: 1px solid transparent;
   border-right: 1px solid transparent;
+  
 }
 
 .range-selector-bottom-ledger-line::before {
