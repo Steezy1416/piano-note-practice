@@ -3,7 +3,7 @@ import { forwardRef } from "react";
 const isTouchDevice = "ontouchstart" in document.documentElement;
 
 const PianoNote = forwardRef(
-  ({ note, playNote, noteDisplay, stopNote, handleMouseOut }, ref) => {
+  ({ note, playNote, letterTypeOnNote, stopNote, handleMouseOut }, ref) => {
     const { name, isSharp, key, noteIndex } = note;
 
     const handleStart = (e) => {
@@ -24,7 +24,7 @@ const PianoNote = forwardRef(
         onTouchStart={handleStart}
         onTouchEnd={handleEnd}
       >
-        {noteDisplay === "notes" ? name : noteDisplay === "keys" ? key : ""}
+        {letterTypeOnNote === "notes" ? name : letterTypeOnNote === "keys" ? key : ""}
       </button>
     );
   }

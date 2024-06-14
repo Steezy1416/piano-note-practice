@@ -1,55 +1,53 @@
-import { useState } from "react";
 import octaveNotes from "../Piano/octaveNotes";
 
-const PianoController = ({
-  noteDisplay,
-  setNoteDisplay,
-  setCurrentClefNotes,
-  setPianoHasFocus,
-  isSustainOn,
-  setIsSustainOn,
-  setCurrentOctave
-}) => {
+const PianoController = ({ pianoSettings, setPianoSettings }) => {
+  const { currentOctaveIndex, isSustainOn, letterTypeOnNote } = pianoSettings;
+
   const handleDisplayPick = (option) => {
     switch (option) {
       case 1: {
-        if (noteDisplay === "notes") {
-          setNoteDisplay("none");
-        } else {
-          setNoteDisplay("notes");
-        }
-        setPianoHasFocus(true);
+        setPianoSettings({
+          ...pianoSettings,
+          letterTypeOnNote: letterTypeOnNote === "notes" ? "none" : "notes",
+          pianoHasFocus: true,
+        });
+
         break;
       }
       case 2: {
-        if (noteDisplay === "keys") {
-          setNoteDisplay("none");
-        } else {
-          setNoteDisplay("keys");
-        }
-        setPianoHasFocus(true);
+        setPianoSettings({
+          ...pianoSettings,
+          letterTypeOnNote: letterTypeOnNote === "keys" ? "none" : "keys",
+          pianoHasFocus: true,
+        });
         break;
       }
       default: {
-        setNoteDisplay("notes");
-        setPianoHasFocus(true);
+        setPianoSettings({
+          ...pianoSettings,
+          pianoHasFocus: true,
+          letterTypeOnNote: "notes",
+        });
         break;
       }
     }
   };
-  const [currentOctaveIndex, setCurrentOctaveIndex] = useState(3);
-  const octaveOptions = [1, 2, 3, 4, 5, 6, 7];
 
   const handleOctaveChange = (index) => {
-    setCurrentOctaveIndex(index);
-    setCurrentClefNotes(octaveNotes[index]);
-    setCurrentOctave(index + 1)
-    setPianoHasFocus(true);
+    setPianoSettings({
+      ...pianoSettings,
+      currentOctaveNotes: octaveNotes[index],
+      pianoHasFocus: true,
+      currentOctaveIndex: index,
+    });
   };
 
   const handleSustain = () => {
-    setIsSustainOn(!isSustainOn);
-    setPianoHasFocus(true);
+    setPianoSettings({
+      ...pianoSettings,
+      isSustainOn: !isSustainOn,
+      pianoHasFocus: true,
+    });
   };
 
   return (
@@ -67,10 +65,10 @@ const PianoController = ({
       <div className="octave-selection-container">
         Octave
         <div className="octave-row">
-          {octaveOptions.map((option, index) => {
+          {[...Array(7).keys()].map((index) => {
             return (
               <button
-                key={option}
+                key={index}
                 className={
                   currentOctaveIndex === index
                     ? "octave-btn active-octave-btn"
@@ -78,7 +76,7 @@ const PianoController = ({
                 }
                 onClick={() => handleOctaveChange(index)}
               >
-                {option}
+                {index + 1}
               </button>
             );
           })}
@@ -90,7 +88,7 @@ const PianoController = ({
         <div className="display-option-container">
           <div
             className={`displayOption ${
-              noteDisplay === "notes" && "active-display-option"
+              letterTypeOnNote === "notes" && "active-display-option"
             }`}
             onClick={() => handleDisplayPick(1)}
           >
@@ -99,7 +97,7 @@ const PianoController = ({
           </div>
           <div
             className={`displayOption ${
-              noteDisplay === "keys" && "active-display-option"
+              letterTypeOnNote === "keys" && "active-display-option"
             } desktop-only`}
             onClick={() => handleDisplayPick(2)}
           >
