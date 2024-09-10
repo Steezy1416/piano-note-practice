@@ -11,32 +11,25 @@ const PianoContainer = ({
   currentQuestions,
   minMax,
 }) => {
-  const [noteDisplay, setNoteDisplay] = useState("notes");
-  const [currentClefNotes, setCurrentClefNotes] = useState(octaveNotes[3]);
-  const [pianoHasFocus, setPianoHasFocus] = useState(true);
-  const [isSustainOn, setIsSustainOn] = useState(false);
-  const [currentOctave, setCurrentOctave] = useState(4);
+  const [pianoSettings, setPianoSettings] = useState({
+    currentOctaveIndex: 3,
+    currentOctaveNotes: octaveNotes[3],
+    isSustainOn: true,
+    pianoHasFocus: true,
+    letterTypeOnNote: "notes",
+  });
 
   return (
     <div className="piano-container">
       <div className="max-width-wrapper">
         <PianoController
-          noteDisplay={noteDisplay}
-          setNoteDisplay={setNoteDisplay}
-          setCurrentClefNotes={setCurrentClefNotes}
-          setPianoHasFocus={setPianoHasFocus}
-          isSustainOn={isSustainOn}
-          setIsSustainOn={setIsSustainOn}
-          setCurrentOctave={setCurrentOctave}
+          pianoSettings={pianoSettings}
+          setPianoSettings={setPianoSettings}
         />
         <Piano
-          noteDisplay={noteDisplay}
-          clefNotes={currentClefNotes}
-          setPianoHasFocus={setPianoHasFocus}
-          pianoHasFocus={pianoHasFocus}
-          isSustainOn={isSustainOn}
+          pianoSettings={pianoSettings}
+          setPianoSettings={setPianoSettings}
           setCurrentQuestionIndex={setCurrentQuestionIndex}
-          currentOctave={currentOctave}
           currentQuestionIndex={currentQuestionIndex}
           currentQuestions={currentQuestions}
           minMax={minMax}
